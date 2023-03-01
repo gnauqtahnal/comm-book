@@ -1,20 +1,29 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "react-native/react-native": true
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "airbnb/hooks"
     ],
     "overrides": [
     ],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
+        "ecmaFeatures": {
+            "jsx": true
+        },
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks",
+        "react-native",
+        "import"
     ],
     "rules": {
     }
