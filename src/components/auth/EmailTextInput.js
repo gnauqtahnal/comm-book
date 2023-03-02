@@ -3,10 +3,10 @@ import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
 
 export function useEmailTextInputState() {
-  const [pass, setPass] = React.useState('');
-  const [passErr, setPassErr] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [emailErr, setEmailErr] = React.useState('');
 
-  return { pass, setPass, passErr, setPassErr };
+  return { email, setEmail, emailErr, setEmailErr };
 }
 
 export default function EmailTextInput({
@@ -15,24 +15,24 @@ export default function EmailTextInput({
   textStyle = {},
   viewStyle = {},
 }) {
-  const { pass, setPass, passErr, setPassErr } =
+  const { email, setEmail, emailErr, setEmailErr } =
     useEmailTextInputState();
 
   const isEmail = (text) => text.includes('@');
 
   const onEndEditing = (event) => {
-    setPass(event.nativeEvent.text);
+    setEmail(event.nativeEvent.text);
     if (isEmail(event.nativeEvent.text)) {
-      setPassErr('');
+      setEmailErr('');
     } else {
-      setPassErr('Email không hợp lệ');
+      setEmailErr('Email không hợp lệ');
     }
   };
 
   React.useEffect(() => {
     if (clear) {
-      setPass('');
-      setPassErr('');
+      setEmail('');
+      setEmailErr('');
     }
   }, []);
 
@@ -41,8 +41,8 @@ export default function EmailTextInput({
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
-        defaultValue={pass}
-        error={passErr !== ''}
+        defaultValue={email}
+        error={emailErr !== ''}
         inputMode="email"
         label="Email"
         mode="outlined"
@@ -51,9 +51,9 @@ export default function EmailTextInput({
       />
       <HelperText
         type="error"
-        visible={passErr !== ''}
+        visible={emailErr !== ''}
       >
-        {passErr}
+        {emailErr}
       </HelperText>
     </View>
   );
