@@ -21,7 +21,7 @@ export function usePasswordTextInputState() {
 }
 
 export default function PasswordTextInput({
-  clear = false,
+  clear = true,
   contentStyle = {},
   textStyle = {},
   validate = false,

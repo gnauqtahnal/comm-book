@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-import tw from 'twrnc';
 
 export function useEmailTextInputState() {
   const [pass, setPass] = React.useState('');
@@ -11,7 +10,7 @@ export function useEmailTextInputState() {
 }
 
 export default function EmailTextInput({
-  clear = false,
+  clear = true,
   contentStyle = {},
   textStyle = {},
   viewStyle = {},
