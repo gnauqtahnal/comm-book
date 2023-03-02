@@ -21,13 +21,22 @@ export function usePasswordTextInputState() {
 }
 
 export default function PasswordTextInput({
-  textStyle = {},
-  contentStyle = {},
-  validate = false,
   clear = false,
+  contentStyle = {},
+  textStyle = {},
+  validate = false,
+  viewStyle = {},
 }) {
-  const { pass, setPass, passErr, setPassErr, confPass, setConfPass, confPassErr, setConfPassErr } =
-    usePasswordTextInputState();
+  const {
+    pass,
+    setPass,
+    passErr,
+    setPassErr,
+    confPass,
+    setConfPass,
+    confPassErr,
+    setConfPassErr,
+  } = usePasswordTextInputState();
 
   const onEndEditingPass = (event) => {
     const value = event.nativeEvent.text;
@@ -59,7 +68,7 @@ export default function PasswordTextInput({
   }, []);
 
   return (
-    <View>
+    <View style={viewStyle}>
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}

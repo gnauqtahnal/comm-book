@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
+import tw from 'twrnc';
 
 export function useEmailTextInputState() {
   const [pass, setPass] = React.useState('');
@@ -9,8 +10,14 @@ export function useEmailTextInputState() {
   return { pass, setPass, passErr, setPassErr };
 }
 
-export default function EmailTextInput({ textStyle = {}, contentStyle = {}, clear = false }) {
-  const { pass, setPass, passErr, setPassErr } = useEmailTextInputState();
+export default function EmailTextInput({
+  clear = false,
+  contentStyle = {},
+  textStyle = {},
+  viewStyle = {},
+}) {
+  const { pass, setPass, passErr, setPassErr } =
+    useEmailTextInputState();
 
   const isEmail = (text) => text.includes('@');
 
@@ -31,7 +38,7 @@ export default function EmailTextInput({ textStyle = {}, contentStyle = {}, clea
   }, []);
 
   return (
-    <View>
+    <View style={viewStyle}>
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
