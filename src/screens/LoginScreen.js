@@ -13,6 +13,7 @@ import auth from '../firebase/auth';
 import {
   clearInfo,
   setEmail,
+  setPassword,
   setRegisterStatus,
 } from '../redux/slice/login';
 
@@ -23,6 +24,8 @@ export default function LoginScreen() {
   const registerStatus = useSelector(
     (state) => state.login.registerStatus
   );
+  const [loginLoading, setLoginLoading] =
+    React.useState(false);
 
   const navigateToRegister = () => {
     dispatch(clearInfo());
@@ -30,8 +33,27 @@ export default function LoginScreen() {
   };
 
   const onPressLogin = () => {
+    setLoginLoading(true);
     if (login.email.error || login.password.error) {
-      /* When there is an error then do nothing */
+      setLoginLoading(false);
+      return;
+    }
+
+    if (login.email.value === '') {
+      dispatch(
+        setEmail({ error: 'Email không được bỏ trống' })
+      );
+      setLoginLoading(false);
+      return;
+    }
+
+    if (login.password.value === '') {
+      dispatch(
+        setPassword({
+          error: 'Mật khẩu không được bỏ trống',
+        })
+      );
+      setLoginLoading(false);
       return;
     }
 
@@ -41,21 +63,23 @@ export default function LoginScreen() {
       login.password.value
     )
       .then((userCredential) => {
+        setLoginLoading(false);
         const { user } = userCredential;
         // console.log('Login success: ', user);
 
-        navigation.goBack();
+        dispatch(clearInfo());
+        navigation.replace('Home');
       })
       .catch((error) => {
-        // console.log(error.code);
-        switch (error.code) {
-          case 'auth/invalid-email':
-            dispatch(
-              setEmail({ error: 'Email không tồn tại' })
-            );
-            break;
-          default:
-            break;
+        setLoginLoading(false);
+        if (error.code.includes('auth/wrong-password')) {
+          dispatch(setPassword({ error: 'Sai mật khẩu' }));
+        } else if (
+          error.code.includes('auth/invalid-email')
+        ) {
+          dispatch(
+            setEmail({ error: 'Email không tồn tại' })
+          );
         }
       });
   };
@@ -68,6 +92,7 @@ export default function LoginScreen() {
         bounce
         buttonStyle={tw`rounded-full bg-white`}
         label="Đăng nhập"
+        loading={loginLoading}
         mode="outlined"
         onPress={onPressLogin}
         textStyle={tw`text-2xl`}

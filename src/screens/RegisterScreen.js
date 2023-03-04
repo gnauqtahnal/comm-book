@@ -25,8 +25,12 @@ export default function RegisterScreen() {
   const login = useSelector((state) => state.login);
   const navigation = useNavigation();
   const dispath = useDispatch();
+  const [loginLoading, setLoginLoading] =
+    React.useState(false);
 
   const onPressRegister = () => {
+    setLoginLoading(true);
+
     if (
       login.email.error ||
       login.password.error ||
@@ -35,6 +39,7 @@ export default function RegisterScreen() {
       login.phone.error
     ) {
       /* When there is an error then do nothing */
+      setLoginLoading(false);
       return;
     }
 
@@ -50,11 +55,14 @@ export default function RegisterScreen() {
           phoneNumber: login.phone.value,
         })
           .then(() => {
+            setLoginLoading(false);
             dispath(clearInfo());
             dispath(setRegisterStatus(true));
+
             navigation.goBack();
           })
           .catch((error) => {
+            setLoginLoading(false);
             deleteUser(user);
             // console.log('update failure: ', error.code);
             if (
@@ -71,6 +79,7 @@ export default function RegisterScreen() {
           });
       })
       .catch((error) => {
+        setLoginLoading(false);
         dispath(setRegisterStatus(false));
         // console.log('Register failure:', error.code);
 
@@ -95,6 +104,7 @@ export default function RegisterScreen() {
         bounce
         buttonStyle={tw`rounded-full bg-white`}
         label="Đăng ký"
+        loading={loginLoading}
         mode="outlined"
         onPress={onPressRegister}
         textStyle={tw`text-2xl`}

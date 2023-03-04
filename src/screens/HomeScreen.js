@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
 import auth from '../firebase/auth';
 import Button from '../components/core/Button';
@@ -13,7 +13,9 @@ export default function HomeScreen() {
     navigation.navigate('Login');
   };
 
-  const navigateToUserProfile = () => {};
+  const navigateToUserProfile = () => {
+    navigation.navigate('UserProfile');
+  };
 
   const { currentUser } = auth;
 

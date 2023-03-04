@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +28,10 @@ export default function RootStack() {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
+        />
+        <Stack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
         />
       </Stack.Group>
     </Stack.Navigator>
