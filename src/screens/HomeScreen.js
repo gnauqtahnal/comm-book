@@ -3,6 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc';
+import auth from '../firebase/auth';
 import Button from '../components/core/Button';
 
 export default function HomeScreen() {
@@ -12,6 +13,10 @@ export default function HomeScreen() {
     navigation.navigate('Login');
   };
 
+  const navigateToUserProfile = () => {};
+
+  const { currentUser } = auth;
+
   return (
     <SafeAreaView style={tw`flex-1 p-4 items-center`}>
       <View
@@ -20,9 +25,17 @@ export default function HomeScreen() {
         <Button
           bounce
           buttonStyle={tw`rounded-full bg-white`}
-          label="Đăng nhập"
+          label={
+            currentUser
+              ? currentUser.displayName
+              : 'Đăng nhập'
+          }
           mode="outlined"
-          onPress={navigateToLogin}
+          onPress={
+            currentUser
+              ? navigateToUserProfile
+              : navigateToLogin
+          }
         />
         <View style={tw`flex-1`} />
       </View>

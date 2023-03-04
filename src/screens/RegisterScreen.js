@@ -3,13 +3,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import tw from 'twrnc';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
+  deleteUser,
   updateProfile,
 } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { Dialog, Portal, Text } from 'react-native-paper';
-import app from '../firebase/app';
+import auth from '../firebase/auth';
 import EmailTextInput from '../components/auth/EmailTextInput';
 import NameTextInput from '../components/auth/NameTextInput';
 import PhoneTextInput from '../components/auth/PhoneTextInput';
@@ -19,6 +18,7 @@ import {
   clearInfo,
   setEmail,
   setRegisterStatus,
+  setUserName,
 } from '../redux/slice/login';
 
 export default function RegisterScreen() {
@@ -38,8 +38,6 @@ export default function RegisterScreen() {
       return;
     }
 
-    const auth = getAuth(app);
-
     createUserWithEmailAndPassword(
       auth,
       login.email.value,
@@ -48,29 +46,38 @@ export default function RegisterScreen() {
       .then((userCredential) => {
         const { user } = userCredential;
         updateProfile(user, {
-          displayName: login.userName,
-          phoneNumber: login.phone
-            ? login.phone
-            : undefined,
-        });
-
-        dispath(clearInfo());
-        dispath(setRegisterStatus(true));
-        navigation.goBack();
+          displayName: login.userName.value,
+          phoneNumber: login.phone.value,
+        })
+          .then(() => {
+            dispath(clearInfo());
+            dispath(setRegisterStatus(true));
+            navigation.goBack();
+          })
+          .catch((error) => {
+            deleteUser(user);
+            // console.log('update failure: ', error.code);
+            if (
+              error.code.includes(
+                'invalid-value-(display-name)'
+              )
+            ) {
+              dispath(
+                setUserName({
+                  error: 'Tên đăng nhập không hợp lệ',
+                })
+              );
+            }
+          });
       })
       .catch((error) => {
         dispath(setRegisterStatus(false));
         // console.log('Register failure:', error.code);
 
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            dispath(
-              setEmail({ error: 'Email đã tồn tại' })
-            );
-            break;
-
-          default:
-            break;
+        if (
+          error.code.includes('auth/email-already-in-use')
+        ) {
+          dispath(setEmail({ error: 'Email đã tồn tại' }));
         }
       });
   };
