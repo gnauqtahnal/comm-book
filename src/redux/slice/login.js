@@ -22,9 +22,22 @@ const initialState = {
     value: '',
     error: '',
   },
+  registerStatus: false,
 };
 
 const reducers = {
+  clearInfo: (state) => {
+    state.email.value = '';
+    state.email.error = '';
+    state.password.value = '';
+    state.password.error = '';
+    state.confirmPassword.value = '';
+    state.confirmPassword.error = '';
+    state.userName.value = '';
+    state.userName.error = '';
+    state.phone.value = '';
+    state.phone.error = '';
+  },
   setEmail: (state, action) => {
     if (action.payload.value !== undefined)
       state.email.value = action.payload.value;
@@ -55,6 +68,9 @@ const reducers = {
     if (action.payload.error !== undefined)
       state.phone.error = action.payload.error;
   },
+  setRegisterStatus: (state, action) => {
+    state.registerStatus = action.payload;
+  },
 };
 
 export const loginSlice = createSlice({
@@ -64,11 +80,13 @@ export const loginSlice = createSlice({
 });
 
 export const {
+  clearInfo,
   setEmail,
   setPassword,
   setConfirmPassword,
   setUserName,
   setPhone,
+  setRegisterStatus,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;
