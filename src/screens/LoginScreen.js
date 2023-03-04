@@ -20,11 +20,11 @@ export default function LoginScreen() {
       <PasswordTextInput viewStyle={tw`w-full`} />
       <Button
         bounce
+        buttonStyle={tw`rounded-full bg-white`}
         label="Đăng nhập"
-        mode="contained"
-        viewStyle={tw`w-2/4`}
-        buttonStyle={tw`rounded-full`}
+        mode="outlined"
         textStyle={tw`text-2xl`}
+        viewStyle={tw`w-2/4`}
       />
       <View style={tw`flex-1`} />
       <Button

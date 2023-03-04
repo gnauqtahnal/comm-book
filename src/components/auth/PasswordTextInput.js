@@ -1,24 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-
-export function usePasswordTextInputState() {
-  const [pass, setPass] = React.useState('');
-  const [passErr, setPassErr] = React.useState('');
-  const [confPass, setConfPass] = React.useState('');
-  const [confPassErr, setConfPassErr] = React.useState('');
-
-  return {
-    pass,
-    setPass,
-    passErr,
-    setPassErr,
-    confPass,
-    setConfPass,
-    confPassErr,
-    setConfPassErr,
-  };
-}
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setPassword,
+  setConfirmPassword,
+} from '../../redux/slice/login';
 
 export default function PasswordTextInput({
   clear = true,
@@ -27,43 +16,48 @@ export default function PasswordTextInput({
   validate = false,
   viewStyle = {},
 }) {
-  const {
-    pass,
-    setPass,
-    passErr,
-    setPassErr,
-    confPass,
-    setConfPass,
-    confPassErr,
-    setConfPassErr,
-  } = usePasswordTextInputState();
+  const password = useSelector(
+    (state) => state.login.password
+  );
+  const confirmPassword = useSelector(
+    (state) => state.login.confirmPassword
+  );
+  const dispatch = useDispatch();
 
   const onEndEditingPass = (event) => {
     const value = event.nativeEvent.text;
     if (value.length >= 8) {
-      setPassErr('');
+      dispatch(setPassword({ value, error: '' }));
     } else {
-      setPassErr('Mật khẩu phải từ 8 ký tự trở lên');
+      dispatch(
+        setPassword({
+          value,
+          error: 'Mật khẩu phải từ 8 ký tự trở lên',
+        })
+      );
     }
-    setPass(value);
   };
 
   const onEndEditingConfPass = (event) => {
     const value = event.nativeEvent.text;
-    if (value === pass) {
-      setConfPassErr('');
+    if (value === password.value) {
+      dispatch(setConfirmPassword({ value, error: '' }));
     } else {
-      setConfPassErr('Xác nhận mật khẩu thất bại');
+      dispatch(
+        setConfirmPassword({
+          value,
+          error: 'Xác nhận mật khẩu thất bại',
+        })
+      );
     }
-    setConfPass(value);
   };
 
   React.useEffect(() => {
     if (clear) {
-      setPass('');
-      setPassErr('');
-      setConfPass('');
-      setConfPassErr('');
+      dispatch(setPassword({ value: '', error: '' }));
+      dispatch(
+        setConfirmPassword({ value: '', error: '' })
+      );
     }
   }, []);
 
@@ -72,8 +66,8 @@ export default function PasswordTextInput({
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
-        defaultValue={pass}
-        error={passErr !== ''}
+        defaultValue={password.value}
+        error={password.error !== ''}
         inputMode="text"
         label="Password"
         mode="outlined"
@@ -83,9 +77,9 @@ export default function PasswordTextInput({
       />
       <HelperText
         type="error"
-        visible={passErr !== ''}
+        visible={password.error !== ''}
       >
-        {passErr}
+        {password.error}
       </HelperText>
 
       {validate && (
@@ -93,8 +87,8 @@ export default function PasswordTextInput({
           <TextInput
             autoCapitalize="none"
             contentStyle={contentStyle}
-            defaultValue={confPass}
-            error={confPassErr !== ''}
+            defaultValue={confirmPassword.value}
+            error={confirmPassword.error !== ''}
             inputMode="text"
             label="Confirm password"
             mode="outlined"
@@ -104,9 +98,9 @@ export default function PasswordTextInput({
           />
           <HelperText
             type="error"
-            visible={confPassErr !== ''}
+            visible={confirmPassword.error !== ''}
           >
-            {confPassErr}
+            {confirmPassword.error}
           </HelperText>
         </>
       )}

@@ -19,9 +19,9 @@ export default function HomeScreen() {
       >
         <Button
           bounce
-          buttonStyle={tw`rounded-full`}
+          buttonStyle={tw`rounded-full bg-white`}
           label="Đăng nhập"
-          mode="contained"
+          mode="outlined"
           onPress={navigateToLogin}
         />
         <View style={tw`flex-1`} />

@@ -20,9 +20,9 @@ export default function RegisterScreen() {
       <Button
         bounce
         label="Đăng ký"
-        mode="contained"
+        mode="outlined"
         viewStyle={tw`w-2/4`}
-        buttonStyle={tw`rounded-full`}
+        buttonStyle={tw`rounded-full bg-white`}
         textStyle={tw`text-2xl`}
       />
     </SafeAreaView>

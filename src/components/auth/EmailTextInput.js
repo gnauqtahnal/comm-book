@@ -1,13 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-
-export function useEmailTextInputState() {
-  const [email, setEmail] = React.useState('');
-  const [emailErr, setEmailErr] = React.useState('');
-
-  return { email, setEmail, emailErr, setEmailErr };
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { setEmail } from '../../redux/slice/login';
 
 export default function EmailTextInput({
   clear = true,
@@ -15,24 +12,25 @@ export default function EmailTextInput({
   textStyle = {},
   viewStyle = {},
 }) {
-  const { email, setEmail, emailErr, setEmailErr } =
-    useEmailTextInputState();
+  const email = useSelector((state) => state.login.email);
+  const dispatch = useDispatch();
 
   const isEmail = (text) => text.includes('@');
 
   const onEndEditing = (event) => {
-    setEmail(event.nativeEvent.text);
-    if (isEmail(event.nativeEvent.text)) {
-      setEmailErr('');
+    const value = event.nativeEvent.text;
+    if (isEmail(value)) {
+      dispatch(setEmail({ value, error: '' }));
     } else {
-      setEmailErr('Email không hợp lệ');
+      dispatch(
+        setEmail({ value, error: 'Email không hợp lệ' })
+      );
     }
   };
 
   React.useEffect(() => {
     if (clear) {
-      setEmail('');
-      setEmailErr('');
+      dispatch(setEmail({ value: '', error: '' }));
     }
   }, []);
 
@@ -41,8 +39,8 @@ export default function EmailTextInput({
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
-        defaultValue={email}
-        error={emailErr !== ''}
+        defaultValue={email.value}
+        error={email.error !== ''}
         inputMode="email"
         label="Email"
         mode="outlined"
@@ -51,9 +49,9 @@ export default function EmailTextInput({
       />
       <HelperText
         type="error"
-        visible={emailErr !== ''}
+        visible={email.error !== ''}
       >
-        {emailErr}
+        {email.error}
       </HelperText>
     </View>
   );

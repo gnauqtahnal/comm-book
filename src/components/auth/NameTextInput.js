@@ -1,13 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-
-export function useNameTextInputState() {
-  const [name, setName] = React.useState('');
-  const [nameErr, setNameErr] = React.useState('');
-
-  return { name, setName, nameErr, setNameErr };
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserName } from '../../redux/slice/login';
 
 export default function NameTextInput({
   clear = true,
@@ -15,17 +12,28 @@ export default function NameTextInput({
   textStyle = {},
   viewStyle = {},
 }) {
-  const { name, setName, nameErr, setNameErr } =
-    useNameTextInputState();
+  const userName = useSelector(
+    (state) => state.login.userName
+  );
+  const dispatch = useDispatch();
 
   const onEndEditing = (event) => {
-    setName(event.nativeEvent.text);
+    const value = event.nativeEvent.text;
+    if (value === '') {
+      dispatch(
+        setUserName({
+          value,
+          error: 'Tên người dùng ko được để trống',
+        })
+      );
+    } else {
+      dispatch(setUserName({ value, error: '' }));
+    }
   };
 
   React.useEffect(() => {
     if (clear) {
-      setName('');
-      setNameErr('');
+      dispatch(setUserName({ value: '', error: '' }));
     }
   }, []);
 
@@ -34,8 +42,8 @@ export default function NameTextInput({
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
-        defaultValue={name}
-        error={nameErr !== ''}
+        defaultValue={userName.value}
+        error={userName.error !== ''}
         inputMode="text"
         label="Tên người dùng"
         mode="outlined"
@@ -44,9 +52,9 @@ export default function NameTextInput({
       />
       <HelperText
         type="error"
-        visible={nameErr !== ''}
+        visible={userName.error !== ''}
       >
-        {nameErr}
+        {userName.error}
       </HelperText>
     </View>
   );

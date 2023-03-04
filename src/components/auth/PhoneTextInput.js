@@ -1,13 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
-
-export function usePhoneTextInputState() {
-  const [phone, setPhone] = React.useState('');
-  const [phoneErr, setPhoneErr] = React.useState('');
-
-  return { phone, setPhone, phoneErr, setPhoneErr };
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhone } from '../../redux/slice/login';
 
 export default function PhoneTextInput({
   clear = true,
@@ -15,17 +12,17 @@ export default function PhoneTextInput({
   textStyle = {},
   viewStyle = {},
 }) {
-  const { phone, setPhone, phoneErr, setPhoneErr } =
-    usePhoneTextInputState();
+  const phone = useSelector((state) => state.login.phone);
+  const dispatch = useDispatch();
 
   const onEndEditing = (event) => {
-    setPhone(event.nativeEvent.text);
+    const value = event.nativeEvent.text;
+    dispatch(setPhone({ value, error: '' }));
   };
 
   React.useEffect(() => {
     if (clear) {
-      setPhone('');
-      setPhoneErr('');
+      dispatch(setPhone({ value: '', error: '' }));
     }
   }, []);
 
@@ -34,8 +31,8 @@ export default function PhoneTextInput({
       <TextInput
         autoCapitalize="none"
         contentStyle={contentStyle}
-        defaultValue={phone}
-        error={phoneErr !== ''}
+        defaultValue={phone.value}
+        error={phone.error !== ''}
         inputMode="numeric"
         label="Số điện thoại"
         mode="outlined"
@@ -44,9 +41,9 @@ export default function PhoneTextInput({
       />
       <HelperText
         type="error"
-        visible={phoneErr !== ''}
+        visible={phone.error !== ''}
       >
-        {phoneErr}
+        {phone.error}
       </HelperText>
     </View>
   );
