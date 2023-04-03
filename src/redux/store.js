@@ -1,15 +1,11 @@
-import {
-  combineReducers,
-  configureStore,
-} from '@reduxjs/toolkit';
-import loginReducer from './slice/login';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-const combinedReducer = combineReducers({
-  login: loginReducer,
+import CategorySlice from './slice/category';
+
+const reducer = combineReducers({
+  category: CategorySlice.reducer,
 });
 
-const store = configureStore({
-  reducer: combinedReducer,
-});
+const store = configureStore({ reducer });
 
 export default store;

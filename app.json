@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "comm-book",
-    "slug": "comm-book",
-    "version": "1.0.0",
+    "name": "comm-book-v2",
+    "slug": "comm-book-v2",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,35 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "jsEngine": "hermes",
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.gnauqal.commbook"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.gnauqal.commbook"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ff6f16da-6ed9-425e-806f-9ea85e1086b6"
       }
-    },
-    "owner": "gnauqal",
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/ff6f16da-6ed9-425e-806f-9ea85e1086b6"
     }
   }
 }
