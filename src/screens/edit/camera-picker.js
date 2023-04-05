@@ -1,7 +1,7 @@
 import { Entypo } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 
+import { launchCameraPickerAsync } from '../../features/image-picker';
 import { EditAction, useEdit } from './reducer';
 import { Button, iconSize } from './style';
 
@@ -9,19 +9,14 @@ function CameraPickerButton() {
   const { dispatch } = useEdit();
 
   async function launchPicker() {
-    await ImagePicker.requestCameraPermissionsAsync();
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
+    try {
+      const uri = await launchCameraPickerAsync();
       dispatch({
         type: EditAction.SetImageUri,
-        imageUri: result.assets[0].uri,
+        imageUri: uri,
       });
+    } catch (error) {
+      // do nothing
     }
   }
 

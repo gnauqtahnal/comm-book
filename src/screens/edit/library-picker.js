@@ -1,7 +1,7 @@
 import { Entypo } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 
+import { launchLibraryPickerAsync } from '../../features/image-picker';
 import { EditAction, useEdit } from './reducer';
 import { Button, iconSize } from './style';
 
@@ -9,19 +9,14 @@ function LibraryPickerButton() {
   const { dispatch } = useEdit();
 
   async function launchPicker() {
-    await ImagePicker.requestMediaLibraryPermissionsAsync();
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
+    try {
+      const uri = await launchLibraryPickerAsync();
       dispatch({
         type: EditAction.SetImageUri,
-        imageUri: result.assets[0].uri,
+        imageUri: uri,
       });
+    } catch (error) {
+      // do nothing
     }
   }
 

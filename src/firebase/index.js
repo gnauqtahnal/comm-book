@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getDownloadURL, getStorage, uploadBytes } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCvna3Im7J_fraCefao8tvu_rwGLwj9BFY',
@@ -12,15 +18,49 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
+export const db = getFirestore(app);
 
-export async function uploadAsync(ref, uri) {
+export async function downloadAsync(path) {
+  const storageRef = ref(storage, path);
+  const url = await getDownloadURL(storageRef);
+  return url;
+}
+
+export function getImagePath(user, section, title, uri) {
+  const uriParts = uri.split('.');
+  const fileType = uriParts[uriParts.length - 1];
+  const path = `${user}/${section}/image/${title.replace(
+    '/\\s+/g',
+    '_'
+  )}.${fileType}`;
+  return path;
+}
+
+export function getSoundPath(user, section, title, uri) {
+  const uriParts = uri.split('.');
+  const fileType = uriParts[uriParts.length - 1];
+  const path = `${user}/${section}/sound/${title.replace(
+    '/\\s+/g',
+    '_'
+  )}.${fileType}`;
+  return path;
+}
+
+export async function uploadAsync(path, uri) {
+  const storageRef = ref(storage, path);
+  // const obj = await fetch(uri);
+  // const blob = await obj.blob();
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
-      resolve(xhr.response);
+      try {
+        resolve(xhr.response);
+      } catch (error) {
+        console.error(error);
+      }
     };
     xhr.onerror = (e) => {
-      console.log(e);
+      console.error(e);
       reject(new TypeError('Network request failed'));
     };
     xhr.responseType = 'blob';
@@ -28,8 +68,7 @@ export async function uploadAsync(ref, uri) {
     xhr.send(null);
   });
 
-  await uploadBytes(ref, blob);
-  blob.close();
-
-  return await getDownloadURL(ref);
+  await uploadBytesResumable(storageRef, blob);
+  const url = await getDownloadURL(storageRef);
+  return url;
 }
