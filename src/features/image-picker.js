@@ -1,8 +1,7 @@
+import { manipulateAsync } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
-import { useDispatch } from 'react-redux';
 
 import { downloadAsync, uploadAsync } from '../firebase';
-import FirebaseSlice from '../redux/slice/firebase';
 
 const options = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -11,13 +10,32 @@ const options = {
   quality: 0.2,
 };
 
+async function resizeImage(uri) {
+  try {
+    const result = await manipulateAsync(
+      uri,
+      [
+        {
+          resize: { height: 256, width: 256 },
+        },
+      ],
+      { compress: 1 }
+    );
+    return result.uri;
+  } catch (error) {
+    console.error(error);
+  }
+  return '';
+}
+
 export async function launchCameraPickerAsync() {
   try {
     await ImagePicker.requestCameraPermissionsAsync();
     const result = await ImagePicker.launchCameraAsync(options);
 
     if (!result.canceled) {
-      const { uri } = result.assets[0];
+      let { uri } = result.assets[0];
+      uri = await resizeImage(uri);
       return uri;
     }
     return undefined;
@@ -33,7 +51,8 @@ export async function launchLibraryPickerAsync() {
     const result = await ImagePicker.launchImageLibraryAsync(options);
 
     if (!result.canceled) {
-      const { uri } = result.assets[0];
+      let { uri } = result.assets[0];
+      uri = await resizeImage(uri);
       return uri;
     }
     return undefined;
