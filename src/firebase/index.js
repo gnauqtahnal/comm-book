@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import {
   getDownloadURL,
   getStorage,
@@ -71,4 +71,25 @@ export async function uploadAsync(path, uri) {
   await uploadBytesResumable(storageRef, blob);
   const url = await getDownloadURL(storageRef);
   return url;
+}
+
+export async function addData(user, section, data) {
+  try {
+    await setDoc(doc(db, user, section), data);
+  } catch (error) {
+    console.error(`addDoc failure ${error}`);
+  }
+}
+
+export async function getData(user) {
+  try {
+    const data = await getDoc(doc(db, user, 'main'));
+    if (data.exists()) {
+      console.log(JSON.stringify(data, null, 2));
+    } else {
+      console.error(`getDoc empty data`);
+    }
+  } catch (error) {
+    console.error(`getDoc failure ${error}`);
+  }
 }

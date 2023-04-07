@@ -5,6 +5,8 @@ import React from 'react';
 import EditScreen from './screens/edit';
 import HomeScreen from './screens/home';
 
+// import TestScreen from './screens/test';
+
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
@@ -15,6 +17,7 @@ export default function Navigation() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
+        {/* <Stack.Screen name="Test" component={TestScreen} /> */}
 
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Edit" component={EditScreen} />

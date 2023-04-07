@@ -17,6 +17,7 @@
     "react/jsx-props-no-spreading": [0],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-extraneous-dependencies": [0],
-    "react/jsx-curly-brace-presence": [0]
+    "react/jsx-curly-brace-presence": [0],
+    "import/prefer-default-export": [0]
   }
 }
