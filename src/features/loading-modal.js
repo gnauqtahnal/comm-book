@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Modal, View } from 'react-native';
+import { ActivityIndicator, Modal, Text, View } from 'react-native';
 
 const LoadingModalContext = React.createContext();
 
@@ -26,7 +26,14 @@ export default function LoadingModal() {
   return (
     <Modal visible={loading} transparent>
       <View tw="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" style={{ transform: [{ scale: 2 }] }} />
+        <View tw="p-8 rounded-xl justify-center items-center bg-black">
+          <Text tw="mb-8 text-lg text-white">Đang tải...</Text>
+          <ActivityIndicator
+            size="large"
+            // style={{ transform: [{ scale: 1 }] }}
+            color="#ffffff"
+          />
+        </View>
       </View>
     </Modal>
   );

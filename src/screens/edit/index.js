@@ -13,6 +13,7 @@ import {
   useLoadingModal,
 } from '../../features/loading-modal';
 import { useRecorder } from '../../features/sound-recorder';
+import { uploadCardDbAsync } from '../../firebase/db';
 import { uploadImageSoundAsync } from '../../firebase/storage';
 import CategorySlice from '../../redux/slice/category';
 import SafeAreaView from '../../safearea';
@@ -110,6 +111,14 @@ const SubmitButtonMemo = React.memo(({ viewStyle = '', textStyle = '' }) => {
         edit.title,
         edit.imageUri,
         edit.soundUri
+      );
+      await uploadCardDbAsync(
+        'default',
+        'default',
+        edit.index,
+        edit.title,
+        imageUrl,
+        soundUrl
       );
       setLoading(false);
     }

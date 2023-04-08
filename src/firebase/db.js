@@ -32,3 +32,23 @@ export async function downloadDbAsync(path, converter = undefined) {
   }
   return undefined;
 }
+
+export async function uploadCardDbAsync(
+  user,
+  section,
+  index,
+  title,
+  imageUri,
+  soundUri
+) {
+  const dataToUpload = JSON.parse(`{
+    "${index}" : {
+      "title": "${title}",
+      "imageUri": "${imageUri}",
+      "soundUri": "${soundUri}"
+    }
+  }`);
+  const pathToUpload = `${user}/${section}`.replace(' ', '_');
+
+  await uploadDbAsync(pathToUpload, dataToUpload);
+}
