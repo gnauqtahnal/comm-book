@@ -1,4 +1,4 @@
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
 
@@ -8,10 +8,10 @@ import {
   launchLibraryPickerAsync,
 } from '../../features/image-picker';
 import { LoadingModalMemo } from '../../features/loading-modal';
+import { useRecorder } from '../../features/sound-recorder';
 import SafeAreaView from '../../safearea';
 import ImageViewMemo from './image-view';
 import { EditAction, EditProvider, useEdit } from './reducer';
-import SoundRecorderButtonMemo from './sound-recorder';
 import SubmitButtonMemo from './submit';
 import TitleInputMemo from './title-input';
 
@@ -63,6 +63,26 @@ const LibraryPickerButtonMemo = React.memo(() => {
   return (
     <Button onPress={launchPicker}>
       <Entypo name="images" size={iconSize} color="black" />
+    </Button>
+  );
+});
+
+const SoundRecorderButtonMemo = React.memo(() => {
+  const { dispatch } = useEdit();
+
+  const callback = (uri) => {
+    dispatch({ type: EditAction.SetSoundUri, soundUri: uri });
+  };
+
+  const [recording, record] = useRecorder(callback);
+
+  return (
+    <Button onPress={record}>
+      {recording ? (
+        <FontAwesome name="stop" size={iconSize} color="black" />
+      ) : (
+        <FontAwesome name="microphone" size={iconSize} color="black" />
+      )}
     </Button>
   );
 });
