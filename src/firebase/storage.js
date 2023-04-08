@@ -15,26 +15,6 @@ export async function downloadAsync(path) {
   return url;
 }
 
-export function getImagePath(user, section, title, uri) {
-  const uriParts = uri.split('.');
-  const fileType = uriParts[uriParts.length - 1];
-  const path = `${user}/${section}/image/${title.replace(
-    '/\\s+/g',
-    '_'
-  )}.${fileType}`;
-  return path;
-}
-
-export function getSoundPath(user, section, title, uri) {
-  const uriParts = uri.split('.');
-  const fileType = uriParts[uriParts.length - 1];
-  const path = `${user}/${section}/sound/${title.replace(
-    '/\\s+/g',
-    '_'
-  )}.${fileType}`;
-  return path;
-}
-
 export async function uploadAsync(path, uri) {
   // const obj = await fetch(uri);
   // const blob = await obj.blob();
@@ -60,4 +40,36 @@ export async function uploadAsync(path, uri) {
   await uploadBytesResumable(storageRef, blob);
   const url = await getDownloadURL(storageRef);
   return url;
+}
+export async function uploadImageSoundAsync(
+  user,
+  section,
+  title,
+  imageUri,
+  soundUri
+) {
+  const getFileType = (uri) => {
+    const uriParts = uri.split('.');
+    const fileType = uriParts[uriParts.length - 1];
+    return fileType;
+  };
+
+  const imageType = getFileType(imageUri);
+  const soundType = getFileType(soundUri);
+
+  const imagePath = `${user}/${section}/image_${title}.${imageType}`.replace(
+    ' ',
+    '_'
+  );
+  const soundPath = `${user}/${section}/sound_${title}.${soundType}`.replace(
+    ' ',
+    '_'
+  );
+
+  const arr = await Promise.all([
+    uploadAsync(imagePath, imageUri),
+    uploadAsync(soundPath, soundUri),
+  ]);
+
+  return arr;
 }
