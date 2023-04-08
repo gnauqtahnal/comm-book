@@ -1,7 +1,7 @@
 import { Audio } from 'expo-av';
 import React from 'react';
 
-async function initRecording() {
+async function initRecordingAsync() {
   await Audio.requestPermissionsAsync();
   await Audio.setAudioModeAsync({
     allowsRecordingIOS: true,
@@ -9,7 +9,7 @@ async function initRecording() {
   });
 }
 
-async function deinitRecording(recording) {
+async function deinitRecordingAsync(recording) {
   recording.stopAndUnloadAsync();
   await Audio.setAudioModeAsync({
     allowsRecordingIOS: false,
@@ -23,12 +23,12 @@ export function useRecorder(callback) {
   const record = React.useCallback(() => {
     if (recording) {
       setRecording(undefined);
-      deinitRecording(recording).then(() => {
+      deinitRecordingAsync(recording).then(() => {
         const uri = recording.getURI();
         callback(uri);
       });
     } else {
-      initRecording().then(() => {
+      initRecordingAsync().then(() => {
         Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.LOW_QUALITY
         ).then(({ recording }) => {

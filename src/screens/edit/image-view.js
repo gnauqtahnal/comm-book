@@ -1,52 +1,19 @@
-import { Audio } from 'expo-av';
 import React from 'react';
 
 import { Image, Pressable, View } from '../../core';
+import { useSound } from '../../features/sound-replay';
 import { useEdit } from './reducer';
 
 function ImageView() {
   const { edit } = useEdit();
-  const [soundObj, setSoundObj] = React.useState(undefined);
+  const { setUri, playSound } = useSound();
 
   React.useEffect(() => {
-    if (soundObj) {
-      soundObj?.unloadAsync().then(() => {
-        setSoundObj(undefined);
-        Audio.Sound.createAsync({ uri: edit.soundUri })
-          .then(({ sound }) => {
-            setSoundObj(sound);
-          })
-          .catch(() => {
-            setSoundObj(undefined);
-          });
-      });
-    } else if (edit.soundUri) {
-      Audio.Sound.createAsync({ uri: edit.soundUri })
-        .then(({ sound }) => {
-          setSoundObj(sound);
-        })
-        .catch(() => {
-          setSoundObj(undefined);
-        });
-    }
-
-    return soundObj
-      ? () => {
-          soundObj?.unloadAsync();
-        }
-      : undefined;
+    setUri(edit.soundUri);
   }, [edit.soundUri]);
 
   return (
-    <Pressable
-      onPress={
-        soundObj
-          ? () => {
-              soundObj?.replayAsync();
-            }
-          : undefined
-      }
-    >
+    <Pressable onPress={playSound}>
       <View tw="w-full p-2 mx-2 my-1">
         <Image
           tw="w-full aspect-square border"

@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Center, Image, Pressable, Text, View } from '../../core';
+import { useSound } from '../../features/sound-replay';
 import CategorySlice from '../../redux/slice/category';
 
 export const CardMode = {
@@ -25,35 +25,10 @@ function Card({
 }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [soundObj, setSoundObj] = React.useState(undefined);
+  const { setUri, playSound } = useSound();
 
   React.useEffect(() => {
-    if (soundObj) {
-      soundObj?.unloadAsync().then(() => {
-        setSoundObj(undefined);
-        Audio.Sound.createAsync({ uri: soundUri })
-          .then(({ sound }) => {
-            setSoundObj(sound);
-          })
-          .catch(() => {
-            setSoundObj(undefined);
-          });
-      });
-    } else if (soundUri) {
-      Audio.Sound.createAsync({ uri: soundUri })
-        .then(({ sound }) => {
-          setSoundObj(sound);
-        })
-        .catch(() => {
-          setSoundObj(undefined);
-        });
-    }
-
-    return soundObj
-      ? () => {
-          soundObj?.unloadAsync();
-        }
-      : undefined;
+    setUri(soundUri);
   }, [soundUri]);
 
   return (
@@ -75,7 +50,7 @@ function Card({
             break;
 
           case CardMode.PlaySound:
-            soundObj?.replayAsync();
+            playSound();
             break;
 
           default:

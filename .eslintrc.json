@@ -12,6 +12,7 @@
   },
   "plugins": ["react", "react-native"],
   "rules": {
+    "no-shadow": [0],
     "arrow-body-style": [0],
     "react/prop-types": [0],
     "react/jsx-props-no-spreading": [0],
