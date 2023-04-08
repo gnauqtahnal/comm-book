@@ -26,6 +26,7 @@ function SelectedView({ viewStyle = '', section = 'main' }) {
             );
           }}
           horizontal
+          nestedScrollEnabled
         />
       ) : undefined}
     </View>

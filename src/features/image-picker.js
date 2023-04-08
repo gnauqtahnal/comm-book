@@ -1,13 +1,13 @@
 import { manipulateAsync } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 
-import { downloadAsync, uploadAsync } from '../firebase';
+import { downloadAsync, uploadAsync } from '../firebase/storage';
 
 const options = {
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
   allowsEditing: true,
   aspect: [1, 1],
-  quality: 0.2,
+  quality: 1,
 };
 
 async function resizeImage(uri) {

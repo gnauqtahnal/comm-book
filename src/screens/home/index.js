@@ -2,6 +2,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Center, Divider } from '../../core';
+import {
+  LoadingModalMemo,
+  useLoadingModal,
+} from '../../features/loading-modal';
+import { downloadDbAsync } from '../../firebase/db';
 import CategorySlice from '../../redux/slice/category';
 import SafeAreaView from '../../safearea';
 import CategoryView from './category-view';
@@ -10,10 +15,24 @@ import ToolBarView from './tool-bar-view';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
+  const { setLoading } = useLoadingModal();
 
-  React.useLayoutEffect(() => {
-    dispatch(CategorySlice.actions.init());
-  }, []);
+  // React.useLayoutEffect(() => {
+  //   setLoading(true);
+
+  //   downloadDbAsync('default/default')
+  //     .then((data) => {
+  //       dispatch(CategorySlice.actions.updateSec(data));
+  //     })
+  //     .catch((error) => {
+  //       console.error(
+  //         `HomeScreen can't download from database. \nDetails: ${error}`
+  //       );
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   return (
     <SafeAreaView>
@@ -24,6 +43,8 @@ export default function HomeScreen() {
         <Divider viewStyle="my-2" />
         <CategoryView viewStyle="flex-1" />
       </Center>
+
+      <LoadingModalMemo />
     </SafeAreaView>
   );
 }

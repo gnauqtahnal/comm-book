@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-import { addData, getData } from '../../firebase';
-
 const isObjAvail = (sections, index, section) => {
   if (sections[section]) {
     if (index < sections[section].length) {
@@ -73,23 +71,16 @@ const reducers = {
         imageUri || '',
         soundUri || '',
       ];
-
-      const obj = {
-        title: title,
-        image: {
-          uri: imageUri,
-          path: '',
-        },
-        sound: {
-          uri: soundUri,
-          path: '',
-        },
-      };
-      addData('test', section, obj);
     }
   },
-  init: (state, action) => {
-    getData('test');
+  updateSec: (state, action) => {
+    const { section, rawData } = action.payload;
+    const keys = Object.keys(rawData);
+
+    keys.forEach((key) => {
+      const { title, imageUri, soundUri } = rawData[key];
+      state.sections[section][key] = [title, imageUri, soundUri];
+    });
   },
 };
 

@@ -31,3 +31,5 @@ export default function LoadingModal() {
     </Modal>
   );
 }
+
+export const LoadingModalMemo = React.memo(LoadingModal);

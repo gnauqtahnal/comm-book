@@ -3,12 +3,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Text } from '../../core';
-import {
-  downloadAsync,
-  getImagePath,
-  getSoundPath,
-  uploadAsync,
-} from '../../firebase';
+import { useLoadingModal } from '../../features/loading-modal';
+// import { uploadDbAsync } from '../../firebase/db';
 import CategorySlice from '../../redux/slice/category';
 import { useEdit } from './reducer';
 import { Button } from './style';
@@ -17,31 +13,48 @@ function SubmitButton({ viewStyle = '', textStyle = '' }) {
   const { edit } = useEdit();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const { setLoading } = useLoadingModal();
 
   return (
     <Button
       viewStyle={viewStyle}
       onPress={async () => {
         if (edit.title) {
+          setLoading(true);
           try {
-            const imagePath = getImagePath(
-              'test',
-              edit.section,
-              edit.title,
-              edit.imageUri
-            );
-            const soundPath = getSoundPath(
-              'test',
-              edit.section,
-              edit.title,
-              edit.soundUri
-            );
+            // const imagePath = getImagePath(
+            //   'default',
+            //   'default',
+            //   edit.title,
+            //   edit.imageUri
+            // );
+            // const soundPath = getSoundPath(
+            //   'default',
+            //   'default',
+            //   edit.title,
+            //   edit.soundUri
+            // );
 
-            await uploadAsync(imagePath, edit.imageUri);
-            const imageUrl = await downloadAsync(imagePath);
+            // setLoading(true);
 
-            await uploadAsync(soundPath, edit.soundUri);
-            const soundUrl = await downloadAsync(soundPath);
+            // const [imageUrl, soundUrl] = await Promise.all([
+            //   uploadAsync(imagePath, edit.imageUri),
+            //   uploadAsync(soundPath, edit.soundUri),
+            // ]);
+
+            // const uploadDbObj = JSON.parse(`{
+            //   "${edit.index}": {
+            //     "title": "${edit.title}",
+            //     "imageUri": "${imageUrl}",
+            //     "soundUri": "${soundUrl}"
+            //   }
+            // }`);
+            // console.log(`uploadDbObj: ${JSON.stringify(uploadDbObj, null, 2)}`);
+
+            // await uploadDbAsync('default/default', uploadDbObj);
+
+            const imageUrl = edit.imageUri;
+            const soundUrl = edit.soundUri;
 
             dispatch(
               CategorySlice.actions.update({
@@ -54,9 +67,9 @@ function SubmitButton({ viewStyle = '', textStyle = '' }) {
             );
             navigation.goBack();
           } catch (error) {
-            // do nothing
             console.error(`handle submit failure ${error}`);
           }
+          setLoading(false);
           return;
         }
 

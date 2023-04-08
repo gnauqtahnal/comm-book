@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import {
   getDownloadURL,
   getStorage,
@@ -7,18 +5,9 @@ import {
   uploadBytesResumable,
 } from 'firebase/storage';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCvna3Im7J_fraCefao8tvu_rwGLwj9BFY',
-  authDomain: 'comm-book-9267f.firebaseapp.com',
-  projectId: 'comm-book-9267f',
-  storageBucket: 'comm-book-9267f.appspot.com',
-  messagingSenderId: '245911528676',
-  appId: '1:245911528676:web:b70b1d9c1d6703994ff8f1',
-};
+import { app } from './app';
 
-export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
-export const db = getFirestore(app);
 
 export async function downloadAsync(path) {
   const storageRef = ref(storage, path);
@@ -47,7 +36,6 @@ export function getSoundPath(user, section, title, uri) {
 }
 
 export async function uploadAsync(path, uri) {
-  const storageRef = ref(storage, path);
   // const obj = await fetch(uri);
   // const blob = await obj.blob();
   const blob = await new Promise((resolve, reject) => {
@@ -68,28 +56,8 @@ export async function uploadAsync(path, uri) {
     xhr.send(null);
   });
 
+  const storageRef = ref(storage, path);
   await uploadBytesResumable(storageRef, blob);
   const url = await getDownloadURL(storageRef);
   return url;
-}
-
-export async function addData(user, section, data) {
-  try {
-    await setDoc(doc(db, user, section), data);
-  } catch (error) {
-    console.error(`addDoc failure ${error}`);
-  }
-}
-
-export async function getData(user) {
-  try {
-    const data = await getDoc(doc(db, user, 'main'));
-    if (data.exists()) {
-      console.log(JSON.stringify(data, null, 2));
-    } else {
-      console.error(`getDoc empty data`);
-    }
-  } catch (error) {
-    console.error(`getDoc failure ${error}`);
-  }
 }

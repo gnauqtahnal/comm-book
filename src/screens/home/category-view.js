@@ -43,6 +43,7 @@ function CategoryView({ viewStyle = '', section = 'main' }) {
             flexDirection: 'row',
             flexWrap: 'wrap',
           }}
+          nestedScrollEnabled
         />
       ) : undefined}
     </View>
