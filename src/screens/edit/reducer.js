@@ -45,7 +45,7 @@ const reducer = (state, action) => {
 
 const initEdit = {
   index: -1,
-  section: 'main',
+  section: 'default',
   title: '',
   imageUri: '',
   soundUri: '',

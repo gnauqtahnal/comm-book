@@ -15,7 +15,7 @@ export const CardMode = {
 
 function Card({
   index = -1,
-  section = 'main',
+  section = 'default',
   title = '',
   imageUri = '',
   soundUri = '',

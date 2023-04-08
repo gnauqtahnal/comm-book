@@ -23,7 +23,7 @@ const name = 'category';
 
 const initialState = {
   sections: {
-    main: [
+    default: [
       ['', '', ''],
       ['', '', ''],
       ['', '', ''],

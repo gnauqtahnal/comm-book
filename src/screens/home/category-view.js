@@ -4,7 +4,7 @@ import { FlatList, View } from '../../core';
 import { useCategory } from '../../redux/slice/category';
 import CardMemo, { CardMode } from './card';
 
-function CategoryView({ viewStyle = '', section = 'main' }) {
+function CategoryView({ viewStyle = '', section = 'default' }) {
   const category = useCategory(section);
 
   function getCardMode(title, imageUri, soundUri) {

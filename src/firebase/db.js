@@ -52,3 +52,9 @@ export async function uploadCardDbAsync(
 
   await uploadDbAsync(pathToUpload, dataToUpload);
 }
+
+export async function downloadCardDbAsync(user, section) {
+  const path = `${user}/${section}`.replace(' ', '_');
+  const data = await downloadDbAsync(path);
+  return data;
+}

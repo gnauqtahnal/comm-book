@@ -4,7 +4,7 @@ import { FlatList, View } from '../../core';
 import { useSelected } from '../../redux/slice/category';
 import CardMemo, { CardMode } from './card';
 
-function SelectedView({ viewStyle = '', section = 'main' }) {
+function SelectedView({ viewStyle = '', section = 'default' }) {
   const selected = useSelected();
 
   return (

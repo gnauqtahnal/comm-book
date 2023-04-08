@@ -6,7 +6,7 @@ import {
   LoadingModalMemo,
   useLoadingModal,
 } from '../../features/loading-modal';
-import { downloadDbAsync } from '../../firebase/db';
+import { downloadCardDbAsync } from '../../firebase/db';
 import CategorySlice from '../../redux/slice/category';
 import SafeAreaView from '../../safearea';
 import CategoryView from './category-view';
@@ -17,22 +17,18 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const { setLoading } = useLoadingModal();
 
-  // React.useLayoutEffect(() => {
-  //   setLoading(true);
-
-  //   downloadDbAsync('default/default')
-  //     .then((data) => {
-  //       dispatch(CategorySlice.actions.updateSec(data));
-  //     })
-  //     .catch((error) => {
-  //       console.error(
-  //         `HomeScreen can't download from database. \nDetails: ${error}`
-  //       );
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, []);
+  React.useLayoutEffect(() => {
+    setLoading(true);
+    downloadCardDbAsync('default', 'default')
+      .then((data) => {
+        dispatch(
+          CategorySlice.actions.updateSec({ section: 'default', rawData: data })
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <SafeAreaView>
