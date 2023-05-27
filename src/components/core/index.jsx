@@ -1,21 +1,17 @@
-import React from 'react'
-import { View } from 'react-native'
-
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import { createDrawerNavigator } from '@react-navigation/drawer'
-
+import { StatusBar as StatusBarExpo } from 'expo-status-bar'
+import React from 'react'
+import { View } from 'react-native'
 import {
   SafeAreaProvider as SafeAreaProviderOrg,
   SafeAreaView as SafeAreaViewOrg,
   initialWindowMetrics,
 } from 'react-native-safe-area-context'
 
-import { StatusBar as StatusBarExpo } from 'expo-status-bar'
-
-import SelectedView from './components/home/selected-view'
-import SelectionView from './components/home/selection-view'
+import LowerView from '../home/lower-view'
+import UpperView from '../home/upper-view'
 
 const Stack = createNativeStackNavigator()
 const HomeDrawer = createDrawerNavigator()
@@ -23,22 +19,22 @@ const HomeDrawer = createDrawerNavigator()
 const HomeDrawerScreen = () => {
   return (
     <SafeAreaView>
-      <SelectedView />
+      <UpperView />
 
       <HomeDrawer.Navigator screenOptions={{ headerShown: false }}>
         <HomeDrawer.Screen
           name="Chung"
-          component={SelectionView}
+          component={LowerView}
           initialParams={{ section: 'common' }}
         />
         <HomeDrawer.Screen
           name="Học sinh"
-          component={SelectionView}
+          component={LowerView}
           initialParams={{ section: 'student' }}
         />
         <HomeDrawer.Screen
           name="Động từ"
-          component={SelectionView}
+          component={LowerView}
           initialParams={{ section: 'verb' }}
         />
       </HomeDrawer.Navigator>
@@ -66,8 +62,8 @@ export const SafeAreaProvider = ({ children }) => {
 
 export const SafeAreaView = ({ children }) => {
   return (
-    <SafeAreaViewOrg tw="flex-1 bg-black">
-      <View tw="flex-1 rounded-lg bg-white">
+    <SafeAreaViewOrg className="flex-1 bg-black">
+      <View className="flex-1 rounded-md bg-white">
         <StatusBar />
         {children}
       </View>
@@ -78,3 +74,13 @@ export const SafeAreaView = ({ children }) => {
 export const StatusBar = () => {
   return <StatusBarExpo style="light" />
 }
+
+const Core = () => {
+  return (
+    <SafeAreaProvider>
+      <Navigation />
+    </SafeAreaProvider>
+  )
+}
+
+export default Core

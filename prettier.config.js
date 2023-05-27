@@ -3,6 +3,8 @@ module.exports = {
   tabWidth: 2,
   semi: false,
   singleQuote: true,
-  // plugins: [require('prettier-plugin-tailwindcss')],
-  // tailwindFunctions: ['tw'],
+  plugins: [require('prettier-plugin-tailwindcss')],
+  importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 }
