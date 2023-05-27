@@ -1,35 +1,35 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react'
+import { View } from 'react-native'
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import {
   SafeAreaProvider as SafeAreaProviderOrg,
   SafeAreaView as SafeAreaViewOrg,
   initialWindowMetrics,
-} from "react-native-safe-area-context";
+} from 'react-native-safe-area-context'
 
-import { StatusBar as StatusBarExpo } from "expo-status-bar";
+import { StatusBar as StatusBarExpo } from 'expo-status-bar'
 
-import HomeScreen from "./screens/home";
-import CommonScreen from "./screens/common";
+import CommonView from './components/home/section/common'
+import SelectedView from './components/home/selected'
 
-const Stack = createNativeStackNavigator();
-const HomeDrawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator()
+const HomeDrawer = createDrawerNavigator()
 
 const HomeDrawerScreen = () => {
   return (
-    <>
-      <HomeScreen />
+    <SafeAreaView>
+      <SelectedView />
       <HomeDrawer.Navigator screenOptions={{ headerShown: false }}>
-        <HomeDrawer.Screen name="Common" component={CommonScreen} />
+        <HomeDrawer.Screen name="Common" component={CommonView} />
       </HomeDrawer.Navigator>
-    </>
-  );
-};
+    </SafeAreaView>
+  )
+}
 
 export const Navigation = () => {
   return (
@@ -38,16 +38,16 @@ export const Navigation = () => {
         <Stack.Screen name="Home" component={HomeDrawerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-};
+  )
+}
 
 export const SafeAreaProvider = ({ children }) => {
   return (
     <SafeAreaProviderOrg initialMetrics={initialWindowMetrics}>
       {children}
     </SafeAreaProviderOrg>
-  );
-};
+  )
+}
 
 export const SafeAreaView = ({ children }) => {
   return (
@@ -57,9 +57,9 @@ export const SafeAreaView = ({ children }) => {
         {children}
       </View>
     </SafeAreaViewOrg>
-  );
-};
+  )
+}
 
 export const StatusBar = () => {
-  return <StatusBarExpo style="light" />;
-};
+  return <StatusBarExpo style="light" />
+}
