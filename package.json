@@ -1,13 +1,14 @@
 {
   "name": "02-comm-book-v2",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.1",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",

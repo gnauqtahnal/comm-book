@@ -57,6 +57,24 @@ function Card({
             break;
         }
       }}
+      delayLongPress={1000}
+      onLongPress={() => {
+        switch (mode) {
+          case CardMode.Select:
+          case CardMode.Update:
+            navigation.navigate('Edit', {
+              index,
+              section,
+              title,
+              imageUri,
+              soundUri,
+            });
+            break;
+
+          default:
+            break;
+        }
+      }}
     >
       <View
         tw={`w-32 h-40 items-center bg-white border border-gray-500 ${viewStyle}`}

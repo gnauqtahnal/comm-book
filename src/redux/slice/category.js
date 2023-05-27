@@ -82,6 +82,19 @@ const reducers = {
       state.sections[section][key] = [title, imageUri, soundUri];
     });
   },
+  add: (state, action) => {
+    const { section, title, imageUri, soundUri } = action.payload;
+
+    section = 'default';
+
+    try {
+      state.sections[section].push([
+        title || '',
+        imageUri || '',
+        soundUri || '',
+      ]);
+    } catch {}
+  },
 };
 
 const CategorySlice = createSlice({
