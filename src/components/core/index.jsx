@@ -9,7 +9,9 @@ import {
   SafeAreaView as SafeAreaViewOrg,
   initialWindowMetrics,
 } from 'react-native-safe-area-context'
+import { Provider as ReduxProvider } from 'react-redux'
 
+import store from '../../redux'
 import LowerView from '../home/lower-view'
 import UpperView from '../home/upper-view'
 
@@ -42,7 +44,7 @@ const HomeDrawerScreen = () => {
   )
 }
 
-export const Navigation = () => {
+const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -52,7 +54,7 @@ export const Navigation = () => {
   )
 }
 
-export const SafeAreaProvider = ({ children }) => {
+const SafeAreaProvider = ({ children }) => {
   return (
     <SafeAreaProviderOrg initialMetrics={initialWindowMetrics}>
       {children}
@@ -60,7 +62,7 @@ export const SafeAreaProvider = ({ children }) => {
   )
 }
 
-export const SafeAreaView = ({ children }) => {
+const SafeAreaView = ({ children }) => {
   return (
     <SafeAreaViewOrg className="flex-1 bg-black">
       <View className="flex-1 rounded-md bg-white">
@@ -71,15 +73,17 @@ export const SafeAreaView = ({ children }) => {
   )
 }
 
-export const StatusBar = () => {
+const StatusBar = () => {
   return <StatusBarExpo style="light" />
 }
 
 const Core = () => {
   return (
-    <SafeAreaProvider>
-      <Navigation />
-    </SafeAreaProvider>
+    <ReduxProvider store={store}>
+      <SafeAreaProvider>
+        <Navigation />
+      </SafeAreaProvider>
+    </ReduxProvider>
   )
 }
 
