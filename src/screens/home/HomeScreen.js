@@ -1,13 +1,16 @@
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import { useDispatch } from 'react-redux'
 
-import { on } from '../../redux/slices/loading'
+import { useLoadingModal } from '../../redux/slices/loading'
 
 export default function HomeScreen() {
-  const dispatch = useDispatch()
+  const { setOn, setOff } = useLoadingModal()
   const openLoadingModal = () => {
-    dispatch(on())
+    setOn()
+
+    setTimeout(() => {
+      setOff()
+    }, 1000)
   }
 
   return (
