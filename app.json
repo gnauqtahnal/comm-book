@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "comm-book-v2",
-    "slug": "comm-book-v2",
-    "version": "2.0.0",
+    "name": "comm-book",
+    "slug": "comm-book",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -23,16 +23,8 @@
         "backgroundColor": "#ffffff"
       }
     },
-    "extra": {
-      "eas": {
-        "projectId": "53e79b4a-1fb5-489a-87e0-49c793ba5592"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/53e79b4a-1fb5-489a-87e0-49c793ba5592"
+    "web": {
+      "favicon": "./assets/favicon.png"
     }
   }
 }
