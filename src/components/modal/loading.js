@@ -12,7 +12,7 @@ export default function LoadingModal() {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(107, 114, 128, 0.8)',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
         }}
       >
         <View
