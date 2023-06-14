@@ -1,42 +1,42 @@
-import { Audio } from 'expo-av';
-import React from 'react';
+import { Audio } from 'expo-av'
+import React from 'react'
 
 async function initRecordingAsync() {
-  await Audio.requestPermissionsAsync();
+  await Audio.requestPermissionsAsync()
   await Audio.setAudioModeAsync({
     allowsRecordingIOS: true,
     playsInSilentModeIOS: true,
-  });
+  })
 }
 
 async function deinitRecordingAsync(recording) {
-  recording.stopAndUnloadAsync();
+  recording.stopAndUnloadAsync()
   await Audio.setAudioModeAsync({
     allowsRecordingIOS: false,
     playsInSilentModeIOS: true,
-  });
+  })
 }
 
 export function useRecorder(callback) {
-  const [recording, setRecording] = React.useState(undefined);
+  const [recording, setRecording] = React.useState(undefined)
 
   const record = React.useCallback(() => {
     if (recording) {
-      setRecording(undefined);
+      setRecording(undefined)
       deinitRecordingAsync(recording).then(() => {
-        const uri = recording.getURI();
-        callback(uri);
-      });
+        const uri = recording.getURI()
+        callback(uri)
+      })
     } else {
       initRecordingAsync().then(() => {
         Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.LOW_QUALITY
         ).then(({ recording }) => {
-          setRecording(recording);
-        });
-      });
+          setRecording(recording)
+        })
+      })
     }
-  }, [recording]);
+  }, [recording])
 
-  return [recording, record];
+  return [recording, record]
 }

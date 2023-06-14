@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-import { FlatList, View } from '../../core';
-import { useSelected } from '../../redux/slice/category';
-import CardMemo, { CardMode } from './card';
+import { FlatList, View } from '../../core'
+import { useSelected } from '../../redux/slice/category'
+import CardMemo, { CardMode } from './card'
 
 function SelectedView({ viewStyle = '', section = 'default' }) {
-  const selected = useSelected();
+  const selected = useSelected()
 
   return (
     <View tw={`w-full h-40 ${viewStyle}`}>
@@ -23,14 +23,14 @@ function SelectedView({ viewStyle = '', section = 'default' }) {
                 mode={CardMode.PlaySound}
                 viewStyle={`mx-1`}
               />
-            );
+            )
           }}
           horizontal
           nestedScrollEnabled
         />
       ) : undefined}
     </View>
-  );
+  )
 }
 
-export default SelectedView;
+export default SelectedView

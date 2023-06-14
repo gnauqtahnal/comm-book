@@ -1,38 +1,25 @@
 {
   "expo": {
-    "name": "comm-book-v2",
-    "slug": "comm-book-v2",
-    "version": "2.0.0",
+    "name": "comm-book",
+    "slug": "comm-book",
+    "version": "2.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/logo.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/logo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/logo.jpg",
         "backgroundColor": "#ffffff"
       }
-    },
-    "extra": {
-      "eas": {
-        "projectId": "53e79b4a-1fb5-489a-87e0-49c793ba5592"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/53e79b4a-1fb5-489a-87e0-49c793ba5592"
     }
   }
 }

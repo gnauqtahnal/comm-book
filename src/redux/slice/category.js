@@ -1,25 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
+import { createSlice } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 
 const isObjAvail = (sections, index, section) => {
   if (sections[section]) {
     if (index < sections[section].length) {
       if (index >= 0) {
-        return true;
+        return true
       }
     }
   }
-  return false;
-};
+  return false
+}
 
 const getObj = (sections, index, section) => {
   if (isObjAvail(sections, index, section)) {
-    return sections[section][index];
+    return sections[section][index]
   }
-  return ['', '', ''];
-};
+  return ['', '', '']
+}
 
-const name = 'category';
+const name = 'category'
 
 const initialState = {
   sections: {
@@ -51,61 +51,61 @@ const initialState = {
     ],
   },
   selected: [],
-};
+}
 
 const reducers = {
   select: (state, action) => {
-    const { index, section } = action.payload;
-    const obj = getObj(state.sections, index, section);
+    const { index, section } = action.payload
+    const obj = getObj(state.sections, index, section)
 
-    state.selected.push(obj);
+    state.selected.push(obj)
   },
   drop: (state) => {
-    state.selected.pop();
+    state.selected.pop()
   },
   update: (state, action) => {
-    const { index, section, title, imageUri, soundUri } = action.payload;
+    const { index, section, title, imageUri, soundUri } = action.payload
     if (isObjAvail(state.sections, index, section)) {
       state.sections[section][index] = [
         title || '',
         imageUri || '',
         soundUri || '',
-      ];
+      ]
     }
   },
   updateSec: (state, action) => {
-    const { section, rawData } = action.payload;
-    const keys = Object.keys(rawData);
+    const { section, rawData } = action.payload
+    const keys = Object.keys(rawData)
 
     keys.forEach((key) => {
-      const { title, imageUri, soundUri } = rawData[key];
-      state.sections[section][key] = [title, imageUri, soundUri];
-    });
+      const { title, imageUri, soundUri } = rawData[key]
+      state.sections[section][key] = [title, imageUri, soundUri]
+    })
   },
   add: (state) => {
-    state.sections['default'].push(['', '', '']);
+    state.sections['default'].push(['', '', ''])
   },
-};
+}
 
 const CategorySlice = createSlice({
   name,
   initialState,
   reducers,
-});
+})
 
 export function useSelected() {
-  const selected = useSelector((state) => state.category.selected);
+  const selected = useSelector((state) => state.category.selected)
 
-  return selected;
+  return selected
 }
 
 export function useCategory(section) {
-  const sections = useSelector((state) => state.category.sections);
+  const sections = useSelector((state) => state.category.sections)
 
   if (sections[section]) {
-    return sections[section];
+    return sections[section]
   }
-  return [];
+  return []
 }
 
-export default CategorySlice;
+export default CategorySlice

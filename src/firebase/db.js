@@ -1,36 +1,36 @@
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 
-import { app } from './app';
+import { app } from './app'
 
-export const db = getFirestore(app);
+export const db = getFirestore(app)
 
 function createRef(path, converter) {
-  let ref;
+  let ref
 
   if (converter) {
-    ref = doc(db, path).withConverter(converter);
+    ref = doc(db, path).withConverter(converter)
   } else {
-    ref = doc(db, path);
+    ref = doc(db, path)
   }
 
-  return ref;
+  return ref
 }
 
 export async function uploadDbAsync(path, data, converter = undefined) {
-  const ref = createRef(path, converter);
+  const ref = createRef(path, converter)
 
-  await setDoc(ref, data, { merge: true });
+  await setDoc(ref, data, { merge: true })
 }
 
 export async function downloadDbAsync(path, converter = undefined) {
-  const ref = createRef(path, converter);
+  const ref = createRef(path, converter)
 
-  const snap = await getDoc(ref);
+  const snap = await getDoc(ref)
 
   if (snap.exists()) {
-    return snap.data();
+    return snap.data()
   }
-  return undefined;
+  return undefined
 }
 
 export async function uploadCardDbAsync(
@@ -47,14 +47,14 @@ export async function uploadCardDbAsync(
       "imageUri": "${imageUri}",
       "soundUri": "${soundUri}"
     }
-  }`);
-  const pathToUpload = `${user}/${section}`.replace(' ', '_');
+  }`)
+  const pathToUpload = `${user}/${section}`.replace(' ', '_')
 
-  await uploadDbAsync(pathToUpload, dataToUpload);
+  await uploadDbAsync(pathToUpload, dataToUpload)
 }
 
 export async function downloadCardDbAsync(user, section) {
-  const path = `${user}/${section}`.replace(' ', '_');
-  const data = await downloadDbAsync(path);
-  return data;
+  const path = `${user}/${section}`.replace(' ', '_')
+  const data = await downloadDbAsync(path)
+  return data
 }

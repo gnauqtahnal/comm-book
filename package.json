@@ -1,5 +1,5 @@
 {
-  "name": "02-comm-book-v2",
+  "name": "comm-book",
   "version": "2.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "ios": "expo start --ios"
   },
   "dependencies": {
-    "@expo/ngrok": "^4.1.1",
     "@expo/vector-icons": "^13.0.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -33,13 +32,23 @@
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-native": "^4.0.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.1"
   },
-  "private": true
+  "main": "node_modules/expo/AppEntry.js",
+  "name": "comm-book",
+  "private": true,
+  "scripts": {
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "start": "expo start"
+  },
+  "version": "2.1.0"
 }

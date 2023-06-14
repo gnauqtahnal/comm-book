@@ -1,34 +1,31 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
-import { Center, Divider } from '../../core';
-import {
-  LoadingModalMemo,
-  useLoadingModal,
-} from '../../features/loading-modal';
-import { downloadCardDbAsync } from '../../firebase/db';
-import CategorySlice from '../../redux/slice/category';
-import SafeAreaView from '../../safearea';
-import CategoryView from './category-view';
-import SelectedView from './selected-view';
-import ToolBarView from './tool-bar-view';
+import { useLoadingModal } from '../../components/modal/loading'
+import { Center, Divider } from '../../core'
+import { downloadCardDbAsync } from '../../firebase/db'
+import CategorySlice from '../../redux/slice/category'
+import SafeAreaView from '../../safearea'
+import CategoryView from './category-view'
+import SelectedView from './selected-view'
+import ToolBarView from './tool-bar-view'
 
 export default function HomeScreen() {
-  const dispatch = useDispatch();
-  const { setLoading } = useLoadingModal();
+  const dispatch = useDispatch()
+  const { on: setModalOn, off: setModalOff } = useLoadingModal()
 
   React.useLayoutEffect(() => {
-    setLoading(true);
+    setModalOn()
     downloadCardDbAsync('default', 'default')
       .then((data) => {
         dispatch(
           CategorySlice.actions.updateSec({ section: 'default', rawData: data })
-        );
+        )
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+        setModalOff()
+      })
+  }, [])
 
   return (
     <SafeAreaView>
@@ -39,8 +36,6 @@ export default function HomeScreen() {
         <Divider viewStyle="my-2" />
         <CategoryView viewStyle="flex-1" />
       </Center>
-
-      <LoadingModalMemo />
     </SafeAreaView>
-  );
+  )
 }

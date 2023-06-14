@@ -1,18 +1,18 @@
-import { StyledComponent } from 'nativewind';
-import React from 'react';
-import { View as RnView } from 'react-native';
+import { StyledComponent } from 'nativewind'
+import React from 'react'
+import { View as RnView } from 'react-native'
 import {
   SafeAreaProvider as RnSafeAreaProvider,
   SafeAreaView as RnSafeAreaView,
   initialWindowMetrics,
-} from 'react-native-safe-area-context';
+} from 'react-native-safe-area-context'
 
 export function SafeAreaProvider({ children }) {
   return (
     <RnSafeAreaProvider initialMetrics={initialWindowMetrics}>
       {children}
     </RnSafeAreaProvider>
-  );
+  )
 }
 
 export default function SafeAreaView({ children }) {
@@ -22,5 +22,5 @@ export default function SafeAreaView({ children }) {
         {children}
       </StyledComponent>
     </StyledComponent>
-  );
+  )
 }

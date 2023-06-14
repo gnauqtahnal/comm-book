@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { createSlice } from '@reduxjs/toolkit'
+import React from 'react'
+import { useSelector } from 'react-redux'
 
 const FirebaseSlice = createSlice({
   name: 'firebase',
@@ -9,14 +9,14 @@ const FirebaseSlice = createSlice({
   },
   reducers: {
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.loading = action.payload
     },
   },
-});
+})
 
 export function useFirebase() {
-  const firebase = useSelector((state) => state.firebase);
-  return React.useMemo(() => [firebase.loading], [firebase.loading]);
+  const firebase = useSelector((state) => state.firebase)
+  return React.useMemo(() => [firebase.loading], [firebase.loading])
 }
 
-export default FirebaseSlice;
+export default FirebaseSlice

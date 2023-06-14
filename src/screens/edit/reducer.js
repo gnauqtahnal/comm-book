@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-const EditContext = React.createContext();
+const EditContext = React.createContext()
 
 export const EditAction = {
   SetIndex: 0,
@@ -9,24 +9,24 @@ export const EditAction = {
   SetImageUri: 3,
   SetSoundUri: 4,
   Update: 5,
-};
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
     case EditAction.SetIndex:
-      return { ...state, index: action.index };
+      return { ...state, index: action.index }
 
     case EditAction.SetSection:
-      return { ...state, section: action.section };
+      return { ...state, section: action.section }
 
     case EditAction.SetTitle:
-      return { ...state, title: action.title };
+      return { ...state, title: action.title }
 
     case EditAction.SetImageUri:
-      return { ...state, imageUri: action.imageUri };
+      return { ...state, imageUri: action.imageUri }
 
     case EditAction.SetSoundUri:
-      return { ...state, soundUri: action.soundUri };
+      return { ...state, soundUri: action.soundUri }
 
     case EditAction.Update:
       return {
@@ -36,12 +36,12 @@ const reducer = (state, action) => {
         title: action.title,
         imageUri: action.imageUri,
         soundUri: action.soundUri,
-      };
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}
 
 const initEdit = {
   index: -1,
@@ -49,15 +49,15 @@ const initEdit = {
   title: '',
   imageUri: '',
   soundUri: '',
-};
+}
 
 export function EditProvider({ children }) {
-  const [edit, dispatch] = React.useReducer(reducer, initEdit);
-  const value = React.useMemo(() => ({ edit, dispatch }), [edit]);
+  const [edit, dispatch] = React.useReducer(reducer, initEdit)
+  const value = React.useMemo(() => ({ edit, dispatch }), [edit])
 
-  return <EditContext.Provider value={value}>{children}</EditContext.Provider>;
+  return <EditContext.Provider value={value}>{children}</EditContext.Provider>
 }
 
 export function useEdit() {
-  return React.useContext(EditContext);
+  return React.useContext(EditContext)
 }

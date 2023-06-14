@@ -1,21 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Provider } from 'react-redux';
+/* eslint-disable react/style-prop-object */
+import { StatusBar } from 'expo-status-bar'
+import React from 'react'
 
-import { LoadingModalProvider } from './src/features/loading-modal';
-import Navigation from './src/navigation';
-import store from './src/redux/store';
-import { SafeAreaProvider } from './src/safearea';
+import { LoadingModal } from './src/components/modal/loading'
+import Navigation from './src/navigation'
+import { ReduxProvider } from './src/redux'
+import { SafeAreaProvider } from './src/safearea'
 
 export default function App() {
   return (
-    <Provider store={store}>
+    <ReduxProvider>
       <SafeAreaProvider>
-        <LoadingModalProvider>
-          <StatusBar style="light" />
-          <Navigation />
-        </LoadingModalProvider>
+        <StatusBar style="light" />
+        <LoadingModal />
+        <Navigation />
       </SafeAreaProvider>
-    </Provider>
-  );
+    </ReduxProvider>
+  )
 }

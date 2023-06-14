@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
-import { Image, Pressable, View } from '../../core';
-import { useSound } from '../../features/sound-replay';
-import { useEdit } from './reducer';
+import { Image, Pressable, View } from '../../core'
+import { useSound } from '../../features/sound-replay'
+import { useEdit } from './reducer'
 
 function ImageView() {
-  const { edit } = useEdit();
-  const { setUri, playSound } = useSound();
+  const { edit } = useEdit()
+  const { setUri, playSound } = useSound()
 
   React.useEffect(() => {
-    setUri(edit.soundUri);
-  }, [edit.soundUri]);
+    setUri(edit.soundUri)
+  }, [edit.soundUri])
 
   return (
     <Pressable onPress={playSound}>
@@ -21,9 +21,9 @@ function ImageView() {
         />
       </View>
     </Pressable>
-  );
+  )
 }
 
-const ImageViewMemo = React.memo(ImageView);
+const ImageViewMemo = React.memo(ImageView)
 
-export default ImageViewMemo;
+export default ImageViewMemo

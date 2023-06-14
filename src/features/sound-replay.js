@@ -1,43 +1,43 @@
-import { Audio } from 'expo-av';
-import React from 'react';
+import { Audio } from 'expo-av'
+import React from 'react'
 
 async function unloadSoundAsync(sound) {
-  await sound.unloadAsync();
+  await sound.unloadAsync()
 }
 
 async function loadSoundAsync(preSound, uri) {
   if (preSound) {
-    await unloadSoundAsync(preSound);
+    await unloadSoundAsync(preSound)
   }
-  const { sound } = await Audio.Sound.createAsync({ uri });
-  return sound;
+  const { sound } = await Audio.Sound.createAsync({ uri })
+  return sound
 }
 
 export function useSound() {
-  const [uri, setUri] = React.useState('');
-  const [sound, setSound] = React.useState(undefined);
+  const [uri, setUri] = React.useState('')
+  const [sound, setSound] = React.useState(undefined)
 
   React.useEffect(() => {
     if (uri) {
       loadSoundAsync(sound, uri).then((sound) => {
-        setSound(sound);
-      });
+        setSound(sound)
+      })
     }
 
     return sound
       ? () => {
           unloadSoundAsync().then(() => {
-            setSound(undefined);
-          });
+            setSound(undefined)
+          })
         }
-      : undefined;
-  }, [uri]);
+      : undefined
+  }, [uri])
 
   const playSound = React.useCallback(() => {
     if (sound) {
-      sound.replayAsync();
+      sound.replayAsync()
     }
-  }, [sound]);
+  }, [sound])
 
-  return { setUri, playSound };
+  return { setUri, playSound }
 }
