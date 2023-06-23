@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -20,6 +22,18 @@
         "foregroundImage": "./src/assets/logo.jpg",
         "backgroundColor": "#ffffff"
       }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3c5fcad3-0212-4467-a9f0-da2ab4e894ac"
+      }
+    },
+    "owner": "gnauqtahnal",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/3c5fcad3-0212-4467-a9f0-da2ab4e894ac"
     }
   }
 }

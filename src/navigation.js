@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Image } from 'expo-image'
 import React from 'react'
+import { Text, View } from 'react-native'
 
 import EditScreen from './screens/edit'
 import HomeScreen from './screens/home'
@@ -12,9 +14,12 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{
+          headerShown: false,
+        }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
+
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Edit" component={EditScreen} />
         </Stack.Group>
