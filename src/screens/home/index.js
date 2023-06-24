@@ -1,4 +1,9 @@
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import {
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+  createDrawerNavigator,
+} from '@react-navigation/drawer'
 import { useNavigation } from '@react-navigation/native'
 import { Image } from 'expo-image'
 import React, { memo } from 'react'
@@ -13,12 +18,14 @@ import { useStackScrollList } from '../../components/scroll-list/stack/useStackS
 import { Center, Divider } from '../../core'
 import { downloadCardDbAsync } from '../../firebase/db'
 import CategorySlice from '../../redux/slice/category'
+
 // import SafeAreaView from '../../safearea'
-import CategoryView from './category-view'
-import SelectedView from './selected-view'
-import ToolBarView from './tool-bar-view'
+// import CategoryView from './category-view'
+// import SelectedView from './selected-view'
+// import ToolBarView from './tool-bar-view'
 
 const logo = require('../../assets/logo.jpg')
+const peopleIcon = require('../../assets/people.png')
 
 // export default function HomeScreen() {
 //   const dispatch = useDispatch()
@@ -50,13 +57,16 @@ const logo = require('../../assets/logo.jpg')
 //   )
 // }
 
-// const Drawer = createDrawerNavigator()
+const Drawer = createDrawerNavigator()
 
 const LogoView = () => {
   return (
-    <View className="m-1 items-center">
-      <Image className="mb-1 h-10 w-10" source={logo} contentFit="scale-down" />
-      <Text className="text-[8px] font-bold">TRUNG TÂM NHÂN VĂN</Text>
+    <View className="m-1 flex flex-row items-center justify-center">
+      <Image className="aspect-square h-8" source={logo} contentFit="fill" />
+      <View className="mx-1 flex items-center justify-center">
+        <Text className="text-[12px] font-bold">TRUNG TÂM</Text>
+        <Text className="text-[12px] font-bold">NHÂN VĂN</Text>
+      </View>
     </View>
   )
 }
@@ -93,42 +103,105 @@ const StackPopButton = () => {
   )
 }
 
-const HeaderView = memo(() => {
-  return (
-    <>
-      <View
-        className="absolute"
-        style={{
-          backgroundColor: 'rgba(240,199,36,1)',
-          height: 64,
-          width: '100%',
-          top: 0,
-        }}
-      />
-      <View
-        className="flex h-16 w-full flex-row items-center"
-        style={{
-          backgroundColor: 'rgba(240,199,36,1)',
-        }}
-      >
-        <LogoView />
-        <View className="flex-1" />
-        <StackPushButton />
-        <StackPopButton />
-      </View>
-    </>
-  )
+// const HeaderView = memo(() => {
+//   return (
+//     <>
+//       <View
+//         className="absolute"
+//         style={{
+//           backgroundColor: 'rgba(240,199,36,1)',
+//           height: 64,
+//           width: '100%',
+//           top: 0,
+//         }}
+//       />
+//       <View
+//         className="flex h-16 w-full flex-row items-center"
+//         style={{
+//           backgroundColor: 'rgba(240,199,36,1)',
+//         }}
+//       >
+//         <LogoView />
+//         <View className="flex-1" />
+//         <StackPushButton />
+//         <StackPopButton />
+//       </View>
+//     </>
+//   )
+// })
+
+const PeopleImage = memo(() => {
+  return <Image className="h-24 w-24" source={peopleIcon} />
 })
 
-const HomeScreen = () => {
+const ContentView = () => {
   return (
-    <SafeAreaView className="flex flex-1">
-      <HeaderView />
-
+    <View>
       <View className="w-full flex-1" style={{ rowGap: 8 }}>
         <StackScrollList />
       </View>
-    </SafeAreaView>
+    </View>
+  )
+}
+
+const FooView = () => {
+  return (
+    <View>
+      <Text>Foo</Text>
+    </View>
+  )
+}
+
+const BarView = () => {
+  return (
+    <View>
+      <Text>Bar</Text>
+    </View>
+  )
+}
+
+const HeaderLeftView = () => {
+  return <LogoView />
+}
+
+const HeaderRightView = () => {
+  return (
+    <View className="flex-row">
+      <StackPushButton />
+      <StackPopButton />
+    </View>
+  )
+}
+
+const HomeScreen = () => {
+  return (
+    // <SafeAreaView className="flex flex-1">
+    //   <HeaderView />
+
+    //   <View className="w-full flex-1" style={{ rowGap: 8 }}>
+    //     <StackScrollList />
+    //   </View>
+
+    // </SafeAreaView>
+    <Drawer.Navigator
+      screenOptions={{
+        headerTitle: '',
+        headerStyle: {
+          backgroundColor: 'rgba(240,199,36,1)',
+        },
+        headerLeft: HeaderLeftView,
+        headerRight: HeaderRightView,
+      }}
+    >
+      <Drawer.Screen
+        name="HomeDrawer"
+        component={ContentView}
+        options={{
+          drawerLabel: '',
+          drawerIcon: () => <PeopleImage />,
+        }}
+      />
+    </Drawer.Navigator>
   )
 }
 
