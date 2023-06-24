@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import CommCard from '../../components/button/comm-card'
 import { useLoadingModal } from '../../components/modal/loading'
 import StackScrollList from '../../components/scroll-list/stack/StackScrollList'
+import { useStackScrollList } from '../../components/scroll-list/stack/useStackScrollList'
 import { Center, Divider } from '../../core'
 import { downloadCardDbAsync } from '../../firebase/db'
 import CategorySlice from '../../redux/slice/category'
@@ -61,10 +62,32 @@ const LogoView = () => {
 }
 
 const StackPushButton = () => {
+  const { push } = useStackScrollList()
+
   return (
-    <TouchableOpacity>
-      <View className="mx-2 h-10 justify-center rounded-md bg-green-500 px-4">
-        <Text>HIT ME</Text>
+    <TouchableOpacity
+      onPress={() => {
+        push(1)
+      }}
+    >
+      <View className="mr-2 h-10 justify-center rounded-md bg-green-500 px-4">
+        <Text>PUSH</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const StackPopButton = () => {
+  const { pop } = useStackScrollList()
+
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        pop(1)
+      }}
+    >
+      <View className="mr-2 h-10 justify-center rounded-md bg-green-500 px-4">
+        <Text>POP</Text>
       </View>
     </TouchableOpacity>
   )
@@ -91,6 +114,7 @@ const HeaderView = memo(() => {
         <LogoView />
         <View className="flex-1" />
         <StackPushButton />
+        <StackPopButton />
       </View>
     </>
   )
@@ -103,8 +127,6 @@ const HomeScreen = () => {
 
       <View className="w-full flex-1" style={{ rowGap: 8 }}>
         <StackScrollList />
-        <CommCard />
-        {/* <CommCard /> */}
       </View>
     </SafeAreaView>
   )

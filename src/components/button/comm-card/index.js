@@ -35,7 +35,7 @@ const ImageView = () => {
 
 const TextView = memo(({ text }) => {
   return (
-    <View className="w-fit flex-1 justify-center rounded-b-md bg-gray-300">
+    <View className="w-fit flex-1 justify-center rounded-b-md">
       <Text className="text-center">{text}</Text>
     </View>
   )

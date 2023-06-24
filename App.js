@@ -7,16 +7,12 @@ import { LoadingModal } from './src/components/modal/loading'
 import Navigation from './src/navigation'
 import { ReduxProvider } from './src/redux'
 
-// import { SafeAreaProvider } from './src/safearea'
-
 export default function App() {
   return (
     <ReduxProvider>
-      {/* <SafeAreaProvider> */}
       <StatusBar style="dark" />
       <LoadingModal />
       <Navigation />
-      {/* </SafeAreaProvider> */}
     </ReduxProvider>
   )
 }
