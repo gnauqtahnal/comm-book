@@ -41,13 +41,9 @@ const TextView = memo(({ text }) => {
   )
 })
 
-export const BlankCommCard = memo(() => {
-  return <View className="h-40 w-32" />
-})
-
 const CommCard = () => {
   return (
-    <TouchableOpacity className="flex h-40 w-32 rounded-md border bg-white">
+    <TouchableOpacity className="flex h-36 w-28 rounded-md border border-gray-300 bg-white">
       <ImageView />
       <TextView text="TRUNG TAM" />
     </TouchableOpacity>
