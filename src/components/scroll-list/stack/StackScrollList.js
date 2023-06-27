@@ -12,7 +12,7 @@ const StackScrollList = () => {
   const { array } = useStackScrollList()
 
   return (
-    <View className="flex h-[184] w-full bg-red-100 pb-1 pt-2">
+    <View className="flex h-[184] w-full pb-1 pt-2">
       <FlatList
         data={array}
         renderItem={({ item, index }) => {

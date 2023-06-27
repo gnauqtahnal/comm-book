@@ -3,6 +3,7 @@
     "name": "comm-book",
     "slug": "comm-book",
     "version": "2.2.0",
+    "orientation": "portrait",
     "icon": "./src/assets/logo.jpg",
     "userInterfaceStyle": "light",
     "splash": {

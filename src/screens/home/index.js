@@ -198,7 +198,7 @@ const HomeScreen = () => {
         component={ContentView}
         options={{
           drawerLabel: '',
-          drawerIcon: () => <PeopleImage />,
+          drawerIcon: PeopleImage,
         }}
       />
     </Drawer.Navigator>
