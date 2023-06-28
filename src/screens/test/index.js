@@ -1,9 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { memo, useCallback } from 'react'
+import { Image } from 'expo-image'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import {
   Dimensions,
   FlatList,
+  Modal,
   Text,
   TouchableOpacity,
   View,
@@ -32,7 +34,7 @@ const DrawerMenu = () => {
 
 const TopView = memo(() => {
   return (
-    <View className="flex-row items-center justify-start bg-white">
+    <View className="w-full flex-row items-center justify-start bg-white">
       <DrawerMenu />
       <LogoView />
     </View>
@@ -47,32 +49,43 @@ const MidView = () => {
   )
 }
 
+const dataSection = [
+  'People',
+  'Teacher',
+  'People',
+  'Teacher',
+  'People',
+  'Teacher',
+  'People',
+  'Teacher',
+  'People',
+  'Teacher',
+]
 const dataTable = {
   People: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   Teacher: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
 }
 
 const BotView = () => {
-  const section = [
-    'People',
-    'Teacher',
-    'People',
-    'Teacher',
-    'People',
-    'Teacher',
-    'People',
-    'Teacher',
-    'People',
-    'Teacher',
-  ]
-
   return (
     <View className="flex-1">
       <FlatList
-        data={section}
-        renderItem={({ item }) => {
+        data={dataSection}
+        renderItem={({ item, index }) => {
           return (
-            <View className="h-36">
+            <View className="mb-8">
+              <View className="flex-row">
+                <TouchableOpacity>
+                  <View className="justify-star mb-2 flex-row items-center rounded-md border border-gray-300 bg-white pr-2">
+                    <Image
+                      className="mr-2 h-11 w-11 rounded-md"
+                      source={`https://picsum.photos/512/512?random=${index}`}
+                    />
+                    <Text className="text-lg">SECTION NAME</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
               <FlatList
                 data={dataTable[item]}
                 renderItem={({ item }) => {
@@ -90,11 +103,11 @@ const BotView = () => {
           )
         }}
         ItemSeparatorComponent={() => {
-          return <View className="p-1" />
+          return <SeparateBar />
         }}
-        snapToAlignment="start"
-        decelerationRate={'fast'}
-        snapToInterval={144 + 8}
+        // snapToAlignment="start"
+        // decelerationRate={'fast'}
+        // snapToInterval={144 + 8}
       />
     </View>
   )
@@ -106,7 +119,7 @@ const SeparateBar = () => {
 
 const TestScreen = () => {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 items-center justify-center bg-white">
       <TopView />
       <SeparateBar />
 

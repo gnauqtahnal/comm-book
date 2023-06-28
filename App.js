@@ -17,7 +17,15 @@ import TestScreen from './src/screens/test'
 const Drawer = createDrawerNavigator()
 const Stack = createNativeStackNavigator()
 
-function CustomDrawerContent(props) {
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Test" component={TestScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}>
       {/* <DrawerItemList {...props} /> */}
@@ -32,7 +40,7 @@ const HomeDrawer = () => {
       screenOptions={{ headerShown: false }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="Test" component={TestScreen} />
+      <Drawer.Screen name="HomeStack" component={HomeStack} />
     </Drawer.Navigator>
   )
 }
