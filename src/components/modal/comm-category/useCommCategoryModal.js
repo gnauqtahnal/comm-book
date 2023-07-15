@@ -1,32 +1,25 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import './redux'
+import { toggle } from './redux'
 
-export const useLoadingModal = () => {
+export const useCommCategoryModal = () => {
   const dispatch = useDispatch()
   const visible = useSelector((state) => {
-    return state.loadingModal.visible
+    return state.commCategoryModal.visible
   })
 
-  const toggleCallback = useCallback(() => {
-    dispatch(toggle())
-  }, [toggle])
-
-  const onCallback = useCallback(() => {
-    dispatch(on())
-  }, [on])
-
-  const offCallback = useCallback(() => {
-    dispatch(off())
-  }, [off])
+  const toggleCallback = useCallback(
+    (args) => {
+      dispatch(toggle(args))
+    },
+    [toggle]
+  )
 
   return useMemo(() => {
     return {
       visible,
       toggle: toggleCallback,
-      on: onCallback,
-      off: offCallback,
     }
-  }, [visible, toggleCallback, onCallback, offCallback])
+  }, [visible, toggleCallback])
 }

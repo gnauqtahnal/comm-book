@@ -10,6 +10,7 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import 'react-native-gesture-handler'
 
+import { CommCategoryModal } from './src/components/modal/comm-category'
 import { LoadingModal } from './src/components/modal/loading'
 import { ReduxProvider } from './src/redux'
 import TestScreen from './src/screens/test'
@@ -21,6 +22,17 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Test" component={TestScreen} />
+
+      <Stack.Group
+        screenOptions={{
+          presentation: 'transparentModal',
+          contentStyle: {
+            backgroundColor: undefined,
+          },
+        }}
+      >
+        <Stack.Screen name="CommCategoryModal" component={CommCategoryModal} />
+      </Stack.Group>
     </Stack.Navigator>
   )
 }
@@ -51,6 +63,7 @@ export default function App() {
       <NavigationContainer>
         <StatusBar style="dark" />
         <LoadingModal />
+        {/* <CommCategoryModal /> */}
         <HomeDrawer />
       </NavigationContainer>
     </ReduxProvider>

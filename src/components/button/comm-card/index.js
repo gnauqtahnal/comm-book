@@ -1,6 +1,5 @@
 import { Image } from 'expo-image'
-import React, { useLayoutEffect, useState } from 'react'
-import { memo } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
 
 const ImageView = () => {
@@ -8,7 +7,7 @@ const ImageView = () => {
   const [id, setId] = useState(0)
 
   useLayoutEffect(() => {
-    setId(Math.random() * 9999999)
+    setId(Math.random() * 9999)
   }, [])
 
   return (

@@ -5,9 +5,21 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   visible: false,
+  section: 'default',
+  data: {},
+  label: {},
+  image: {},
+  sound: {},
 }
 
-const reducers = {}
+const reducers = {
+  toggle: (state, action) => {
+    if (action.payload?.section) {
+      state.section = action.payload.section
+    }
+    state.visible = !state.visible
+  },
+}
 
 export const slice = createSlice({
   name: 'commCategoryModal',
@@ -16,4 +28,4 @@ export const slice = createSlice({
 })
 
 export const { reducer } = slice
-export const {} = slice.actions
+export const { toggle } = slice.actions

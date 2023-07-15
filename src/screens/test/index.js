@@ -1,19 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { Image } from 'expo-image'
-import React, { memo, useCallback, useMemo, useState } from 'react'
-import {
-  Dimensions,
-  FlatList,
-  Modal,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import React, { memo, useCallback } from 'react'
+import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import CommCard from '../../components/button/comm-card'
 import LogoView from '../../components/logo'
+import { useCommCategoryModal } from '../../components/modal/comm-category'
 import StackScrollList from '../../components/scroll-list/stack/StackScrollList'
 
 const DrawerMenu = () => {
@@ -67,6 +61,9 @@ const dataTable = {
 }
 
 const BotView = () => {
+  const navigation = useNavigation()
+  const { toggle } = useCommCategoryModal()
+
   return (
     <View className="flex-1">
       <FlatList
@@ -75,7 +72,12 @@ const BotView = () => {
           return (
             <View className="mb-8">
               <View className="flex-row">
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // toggle({ section: item })
+                    navigation.navigate('CommCategoryModal')
+                  }}
+                >
                   <View className="justify-star mb-2 flex-row items-center rounded-md border border-gray-300 bg-white pr-2">
                     <Image
                       className="mr-2 h-11 w-11 rounded-md"
