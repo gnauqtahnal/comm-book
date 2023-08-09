@@ -1,17 +1,26 @@
-import { useContext, useReducer } from 'react'
-import { Context } from './Context'
+import { useContext, useReducer } from "react"
+
+import { Context } from "./Context"
 
 const initState = {
   loading: false,
+  loadingProgress: 0,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'toggleLoading':
+    case "toggleLoading":
       return {
         ...state,
         loading: !state.loading,
       }
+
+    case "setLoadingProgress":
+      return {
+        ...state,
+        loadingProgress: action.loadingProgress,
+      }
+
     default:
       return state
   }

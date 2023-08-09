@@ -18,6 +18,9 @@ export const Constant = Object.assign(
         width: 256,
       },
     },
+    modalLoading: {
+      borderRadius: 5,
+    },
   },
   {},
 )

@@ -1,8 +1,14 @@
 import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native"
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native"
 
-import { Card, Center } from "./src/components"
+import { Card, ModalLoading } from "./src/components"
 import { ImageAction } from "./src/features"
 import { StoreProvider, useStoreDispatch } from "./src/store"
 
@@ -77,7 +83,6 @@ const CardList = () => {
       width: 512,
     },
   ])
-  console.log(JSON.stringify(data, null, 2))
 
   const handlerOfChange = (index) => {
     setData((arg) => {
@@ -118,36 +123,53 @@ const CardList = () => {
   )
 }
 
-// const OpenLoadingModal = () => {
-//   const dispatch = useStoreDispatch()
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-//   const openModal = () => {
-//     dispatch({ type: "toggleLoading" })
-//   }
+const OpenLoadingModal = () => {
+  const dispatch = useStoreDispatch()
 
-//   return (
-//     <Button onPress={openModal}>
-//       <Center>
-//         <Text>Open Modal</Text>
-//       </Center>
-//     </Button>
-//   )
-// }
+  const openModal = async () => {
+    dispatch({ type: "toggleLoading" })
+
+    for (let i = 0; i <= 10; i++) {
+      dispatch({ type: "setLoadingProgress", loadingProgress: i * 10 })
+      await sleep(300)
+    }
+
+    dispatch({ type: "toggleLoading" })
+  }
+
+  return (
+    <TouchableOpacity onPress={openModal}>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth: 1,
+          padding: 8,
+          borderRadius: 5,
+        }}
+      >
+        <Text>Open Modal</Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 export default function App() {
   return (
-    // <StoreProvider>
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {/* <LoadingModal /> */}
+    <StoreProvider>
+      <View style={styles.container}>
+        <StatusBar style="auto" />
+        <ModalLoading />
 
-      {/* <PickImage /> */}
+        {/* <PickImage /> */}
 
-      <CardList />
+        <CardList />
 
-      {/* <OpenLoadingModal /> */}
-    </View>
-    // </StoreProvider>
+        <OpenLoadingModal />
+      </View>
+    </StoreProvider>
   )
 }
 
