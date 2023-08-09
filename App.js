@@ -2,15 +2,17 @@ import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
 import {
   FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native"
+import { useDispatch } from "react-redux"
 
 import { Card, ModalLoading } from "./src/components"
 import { ImageAction } from "./src/features"
-import { StoreProvider, useStoreDispatch } from "./src/store"
+import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
 
 // const PickImage = () => {
 //   const [uri, setUri] = useState('')
@@ -126,17 +128,15 @@ const CardList = () => {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const OpenLoadingModal = () => {
-  const dispatch = useStoreDispatch()
+  const dispatch = useDispatch()
 
   const openModal = async () => {
-    dispatch({ type: "toggleLoading" })
-
-    for (let i = 0; i <= 10; i++) {
-      dispatch({ type: "setLoadingProgress", loadingProgress: i * 10 })
-      await sleep(300)
+    dispatch(openModalLoading(0))
+    for (let progress = 0; progress <= 100; progress = progress + 10) {
+      dispatch(openModalLoading(progress))
+      await sleep(100)
     }
-
-    dispatch({ type: "toggleLoading" })
+    dispatch(closeModalLoading())
   }
 
   return (
@@ -158,25 +158,27 @@ const OpenLoadingModal = () => {
 
 export default function App() {
   return (
-    <StoreProvider>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <ModalLoading />
+    <ReduxProvider>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
+          <ModalLoading />
 
-        {/* <PickImage /> */}
+          {/* <PickImage /> */}
 
-        <CardList />
+          <CardList />
 
-        <OpenLoadingModal />
-      </View>
-    </StoreProvider>
+          <OpenLoadingModal />
+        </View>
+      </SafeAreaView>
+    </ReduxProvider>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
 })

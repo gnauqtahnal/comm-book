@@ -1,10 +1,7 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Modal, Text } from "react-native"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
-
-import { useStoreState } from "../../store"
-
-export const useModalLoading = () => useContext(LoadingModalContext)
+import { useSelector } from "react-redux"
 
 const ProgressBar = ({ progress = 0 }) => {
   return (
@@ -15,23 +12,20 @@ const ProgressBar = ({ progress = 0 }) => {
 }
 
 export const ModalLoading = () => {
-  const state = useStoreState()
+  const { visible, progressBar } = useSelector((state) => state.modal.loading)
 
   return (
-    <Modal
-      visible={state?.loading || false}
-      animationType="fade"
-      transparent={true}
-    >
+    <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.indicator}>
             <ActivityIndicator size="large" color="#FFFFFF" />
           </View>
-
           <Text style={styles.text}>Đang tải...</Text>
 
-          <ProgressBar progress={state?.loadingProgress} />
+          {progressBar.enable ? (
+            <ProgressBar progress={progressBar.value} />
+          ) : null}
         </View>
       </View>
     </Modal>
