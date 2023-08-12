@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
 import {
   FlatList,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,6 +11,7 @@ import { useDispatch } from "react-redux"
 
 import { Card, ModalLoading } from "./src/components"
 import { ImageAction } from "./src/features"
+import { NavigationProvider } from "./src/navigation"
 import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
 
 // const PickImage = () => {
@@ -159,18 +159,14 @@ const OpenLoadingModal = () => {
 export default function App() {
   return (
     <ReduxProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
-        <View style={styles.container}>
-          <StatusBar style="auto" />
-          <ModalLoading />
-
-          {/* <PickImage /> */}
-
-          <CardList />
-
-          <OpenLoadingModal />
-        </View>
-      </SafeAreaView>
+      <StatusBar style="auto" />
+      <NavigationProvider />
+      {/* <View style={styles.container}>
+            <ModalLoading />
+            <PickImage />
+            <CardList />
+            <OpenLoadingModal />
+          </View> */}
     </ReduxProvider>
   )
 }

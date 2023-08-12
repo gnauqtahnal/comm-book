@@ -1,7 +1,7 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit"
 import { Provider } from "react-redux"
 
-export const modalSlice = createSlice({
+const modalSlice = createSlice({
   name: "modal",
   initialState: {
     loading: {
@@ -28,6 +28,11 @@ export const modalSlice = createSlice({
 })
 
 export const { openModalLoading, closeModalLoading } = modalSlice.actions
+
+const listSelected = createSlice({
+  name: "listSelected",
+  initialState: {},
+})
 
 export const store = configureStore({
   reducer: combineReducers({
