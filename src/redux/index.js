@@ -31,12 +31,33 @@ export const { openModalLoading, closeModalLoading } = modalSlice.actions
 
 const listSelected = createSlice({
   name: "listSelected",
+  initialState: {
+    stack: [],
+  },
+  reducers: {
+    listSelectedPush: (state, action) => {
+      state.stack.push(action.payload)
+    },
+    listSelectedPop: (state) => {
+      state.stack.pop()
+    },
+  },
+})
+
+export const { listSelectedPush, listSelectedPop } = listSelected.actions
+
+const imageStorage = createSlice({
+  name: "imageStorage",
   initialState: {},
+  reducers: {
+    imageStorageAdd: {},
+  },
 })
 
 export const store = configureStore({
   reducer: combineReducers({
     modal: modalSlice.reducer,
+    listSelected: listSelected.reducer,
   }),
 })
 
