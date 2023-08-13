@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
+import React, { memo, useEffect, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useDispatch, useSelector } from "react-redux"
@@ -6,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Card, LogoImageText } from "../../../components"
 import { Constant } from "../../../constant"
 import { imageResize } from "../../../features/image/resize"
-import { listSelectedPush } from "../../../redux"
+import { listSelectedPop, listSelectedPush } from "../../../redux"
 
 const ListPicked = () => {
   const listSelected = useSelector((state) => state.listSelected)
@@ -129,15 +130,50 @@ const ListSelectable = () => {
   )
 }
 
+const ButtonBackSpace = memo(() => {
+  const dispatch = useDispatch()
+
+  const deselect = () => {
+    dispatch(listSelectedPop())
+  }
+
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        deselect()
+      }}
+    >
+      <View
+        style={{
+          borderWidth: 1,
+          borderRadius: 5,
+          paddingVertical: 1,
+          paddingHorizontal: 8,
+        }}
+      >
+        <MaterialCommunityIcons
+          name="backspace-outline"
+          size={30}
+          color="black"
+        />
+      </View>
+    </TouchableOpacity>
+  )
+})
+
 const HomeHeader = () => {
   return (
     <View
       style={{
         padding: 8,
         flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
       }}
     >
       <LogoImageText />
+      <View style={{ flex: 1 }} />
+      <ButtonBackSpace />
     </View>
   )
 }
