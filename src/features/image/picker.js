@@ -18,11 +18,9 @@ export const imagePickFromLibrary = async () => {
       quality: 1,
     })
 
-    if (!result.canceled) {
-      result = await imageResize(result.assets[0].uri, 512, 512)
-    }
+    let uri = result.assets[0].uri
 
-    return result
+    return uri
   } catch (error) {
     Alert.alert("ImagePicker", "FromLibraryFailure")
     return undefined
@@ -46,11 +44,9 @@ export const imagePickFromCamera = async () => {
       quality: 1,
     })
 
-    if (!result.canceled) {
-      result = await imageResize(result.assets[0].uri, 512, 512)
-    }
+    let uri = result.assets[0].uri
 
-    return result
+    return uri
   } catch (error) {
     Alert.alert("ImagePicker", "FromLibraryFailure")
     return undefined

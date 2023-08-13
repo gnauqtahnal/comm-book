@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import { Card } from "../../../components"
+import { Card, LogoImageText } from "../../../components"
 import { Constant } from "../../../constant"
 
 const ListPicked = () => {
@@ -285,9 +285,23 @@ const ListSelectable = () => {
   )
 }
 
+const HomeHeader = () => {
+  return (
+    <View
+      style={{
+        padding: 8,
+        flexDirection: "row",
+      }}
+    >
+      <LogoImageText />
+    </View>
+  )
+}
+
 export const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <HomeHeader />
       <ListPicked />
       <ListSelectable />
     </SafeAreaView>
