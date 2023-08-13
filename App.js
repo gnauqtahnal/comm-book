@@ -62,69 +62,6 @@ import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
 //   )
 // }
 
-const CardList = () => {
-  const [data, setData] = useState([
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-  ])
-
-  const handlerOfChange = (index) => {
-    setData((arg) => {
-      const data = Array.from(arg)
-
-      data[index].width = data[index].width === 512 ? 1024 : 512
-      data[
-        index
-      ].imageUri = `https://picsum.photos/${data[index].width}/${data[index].width}`
-
-      return data
-    })
-  }
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          handlerOfChange(index)
-        }}
-      >
-        <Card.Comm source={item.imageUri} text={item.text} />
-      </TouchableOpacity>
-    )
-  }
-
-  return (
-    <View
-      style={{
-        backgroundColor: "#ffffcc",
-        padding: 4,
-        width: "100%",
-        height: 160 + 24,
-      }}
-    >
-      <FlatList data={data} renderItem={renderItem} horizontal />
-    </View>
-  )
-}
-
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const OpenLoadingModal = () => {
@@ -164,7 +101,6 @@ export default function App() {
       {/* <View style={styles.container}>
             <ModalLoading />
             <PickImage />
-            <CardList />
             <OpenLoadingModal />
           </View> */}
     </ReduxProvider>

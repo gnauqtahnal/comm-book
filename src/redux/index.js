@@ -32,69 +32,23 @@ export const { openModalLoading, closeModalLoading } = modalSlice.actions
 
 const listSelected = createSlice({
   name: "listSelected",
-  initialState: {
-    stack: [],
-  },
+  initialState: [],
   reducers: {
     listSelectedPush: (state, action) => {
-      state.stack.push(action.payload)
+      state.push(action.payload)
     },
     listSelectedPop: (state) => {
-      state.stack.pop()
+      state.pop()
     },
   },
 })
 
 export const { listSelectedPush, listSelectedPop } = listSelected.actions
 
-const imageStorage = createSlice({
-  name: "imageStorage",
-  initialState: {},
-  reducers: {
-    // imageStorageAdd: (state, action) => {
-    //   const { id, uri } = action.payload
-    //   Alert.alert("Lỗi bên trong", "Không thể thêm ảnh vào kho redux")
-    // },
-    imageStorageUpdate: (state, action) => {
-      const { id, uri } = action.payload
-      let ng = true
-
-      if (id) {
-        if (state[id]) {
-          state[id] = uri
-          ng = false
-        }
-      }
-
-      if (ng) {
-        Alert.alert("Lỗi bên trong", "Không thể cập nhật ảnh vào kho redux")
-      }
-    },
-    imageStorageRemove: (state, action) => {
-      const { id } = action.payload
-      let ng = true
-
-      if (id) {
-        if (state[id]) {
-          delete state[id]
-          ng = false
-        }
-      }
-
-      if (ng) {
-        Alert.alert("Lỗi bên trong", "Không thể xóa ảnh trong kho redux")
-      }
-    },
-  },
-})
-
-export const { imageStorageUpdate, imageStorageRemove } = imageStorage.actions
-
 export const store = configureStore({
   reducer: combineReducers({
     modal: modalSlice.reducer,
     listSelected: listSelected.reducer,
-    imageStorage: imageStorage.reducer,
   }),
 })
 

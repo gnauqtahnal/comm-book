@@ -1,75 +1,20 @@
-import React, { useState } from "react"
-import { FlatList, TouchableOpacity, View } from "react-native"
+import React, { useEffect, useState } from "react"
+import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { useDispatch, useSelector } from "react-redux"
 
 import { Card, LogoImageText } from "../../../components"
 import { Constant } from "../../../constant"
+import { imageResize } from "../../../features/image/resize"
+import { listSelectedPush } from "../../../redux"
 
 const ListPicked = () => {
-  const [data, setData] = useState([
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-  ])
-
-  const handlerOfChange = (index) => {
-    setData((arg) => {
-      const data = Array.from(arg)
-
-      data[index].width = data[index].width === 512 ? 1024 : 512
-      data[
-        index
-      ].imageUri = `https://picsum.photos/${data[index].width}/${data[index].width}`
-
-      return data
-    })
-  }
+  const listSelected = useSelector((state) => state.listSelected)
 
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          handlerOfChange(index)
-        }}
-      >
-        <Card.Comm source={item.imageUri} text={item.text} />
+      <TouchableOpacity>
+        <Card.Comm source={item.image.uri} text={item.text} />
       </TouchableOpacity>
     )
   }
@@ -77,13 +22,14 @@ const ListPicked = () => {
   return (
     <View
       style={{
-        backgroundColor: "#ffffcc",
         width: "100%",
         height: Constant.card.comm.height + 16,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
       }}
     >
       <FlatList
-        data={data}
+        data={listSelected}
         renderItem={renderItem}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -96,151 +42,50 @@ const ListPicked = () => {
 }
 
 const ListSelectable = () => {
+  const dispatch = useDispatch()
   const [numColumns, setNumColumns] = useState(1)
   const [data, setData] = useState([
     {
       text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "one",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "two",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "three",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
-    },
-    {
-      text: "four",
-      imageUri: "https://picsum.photos/512/512",
-      width: 512,
+      image: {
+        uri: undefined,
+        url: "https://picsum.photos/512/512",
+      },
     },
   ])
 
-  const handlerOfChange = (index) => {
-    setData((arg) => {
-      const data = Array.from(arg)
+  console.log(JSON.stringify(data, null, 2))
 
-      data[index].width = data[index].width === 512 ? 1024 : 512
-      data[
-        index
-      ].imageUri = `https://picsum.photos/${data[index].width}/${data[index].width}`
+  useEffect(() => {
+    console.log("This should only show up once!!!")
+    const resize = async () => {
+      try {
+        const uri = await imageResize(data[0].image.url)
+        setData((data) => {
+          const newData = [...data]
+          newData[0].image.uri = uri
+          return newData
+        })
+      } catch {
+        Alert.alert("Resize", "Failure to resize")
+      }
+    }
 
-      return data
-    })
+    resize()
+  }, [])
+
+  const select = (index) => {
+    dispatch(listSelectedPush(data[index]))
   }
 
   const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          handlerOfChange(index)
+          select(index)
         }}
       >
-        <Card.Comm source={item.imageUri} text={item.text} />
+        <Card.Comm source={item.image.uri} text={item.text} />
       </TouchableOpacity>
     )
   }
@@ -259,7 +104,6 @@ const ListSelectable = () => {
       onLayout={onLayoutView}
       style={{
         flex: 1,
-        backgroundColor: "#ccffcc",
         width: "100%",
       }}
     >
