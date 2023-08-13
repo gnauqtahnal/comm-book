@@ -1,4 +1,5 @@
 import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit"
+import { Alert } from "react-native"
 import { Provider } from "react-redux"
 
 const modalSlice = createSlice({
@@ -50,14 +51,50 @@ const imageStorage = createSlice({
   name: "imageStorage",
   initialState: {},
   reducers: {
-    imageStorageAdd: {},
+    // imageStorageAdd: (state, action) => {
+    //   const { id, uri } = action.payload
+    //   Alert.alert("Lỗi bên trong", "Không thể thêm ảnh vào kho redux")
+    // },
+    imageStorageUpdate: (state, action) => {
+      const { id, uri } = action.payload
+      let ng = true
+
+      if (id) {
+        if (state[id]) {
+          state[id] = uri
+          ng = false
+        }
+      }
+
+      if (ng) {
+        Alert.alert("Lỗi bên trong", "Không thể cập nhật ảnh vào kho redux")
+      }
+    },
+    imageStorageRemove: (state, action) => {
+      const { id } = action.payload
+      let ng = true
+
+      if (id) {
+        if (state[id]) {
+          delete state[id]
+          ng = false
+        }
+      }
+
+      if (ng) {
+        Alert.alert("Lỗi bên trong", "Không thể xóa ảnh trong kho redux")
+      }
+    },
   },
 })
+
+export const { imageStorageUpdate, imageStorageRemove } = imageStorage.actions
 
 export const store = configureStore({
   reducer: combineReducers({
     modal: modalSlice.reducer,
     listSelected: listSelected.reducer,
+    imageStorage: imageStorage.reducer,
   }),
 })
 

@@ -27,6 +27,26 @@ const ListPicked = () => {
       imageUri: "https://picsum.photos/512/512",
       width: 512,
     },
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
   ])
 
   const handlerOfChange = (index) => {
@@ -58,12 +78,19 @@ const ListPicked = () => {
     <View
       style={{
         backgroundColor: "#ffffcc",
-        padding: 4,
         width: "100%",
-        height: Constant.card.comm.height + 24,
+        height: Constant.card.comm.height + 16,
       }}
     >
-      <FlatList data={data} renderItem={renderItem} horizontal />
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          padding: 4,
+        }}
+      />
     </View>
   )
 }
@@ -71,6 +98,106 @@ const ListPicked = () => {
 const ListSelectable = () => {
   const [numColumns, setNumColumns] = useState(1)
   const [data, setData] = useState([
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "one",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "two",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "three",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
+    {
+      text: "four",
+      imageUri: "https://picsum.photos/512/512",
+      width: 512,
+    },
     {
       text: "one",
       imageUri: "https://picsum.photos/512/512",
@@ -131,10 +258,9 @@ const ListSelectable = () => {
     <View
       onLayout={onLayoutView}
       style={{
+        flex: 1,
         backgroundColor: "#ccffcc",
-        padding: 4,
         width: "100%",
-        height: "100%",
       }}
     >
       <FlatList
@@ -142,8 +268,10 @@ const ListSelectable = () => {
         renderItem={renderItem}
         key={numColumns}
         numColumns={numColumns}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           width: "100%",
+          padding: 4,
         }}
         columnWrapperStyle={
           numColumns != 1 && {
@@ -159,7 +287,7 @@ const ListSelectable = () => {
 
 export const HomeScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ListPicked />
       <ListSelectable />
     </SafeAreaView>
