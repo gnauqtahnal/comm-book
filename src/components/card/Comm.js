@@ -43,8 +43,6 @@ const styles = StyleSheet.create({
   },
   image: {
     aspectRatio: 1,
-    // borderBottomLeftRadius: 0,
-    // borderBottomRightRadius: 0,
     width: "100%",
   },
   textContainer: {
