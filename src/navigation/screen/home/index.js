@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import React, { memo, useEffect, useState } from "react"
+import React, { memo, useEffect, useLayoutEffect, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useDispatch, useSelector } from "react-redux"
@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { Card, LogoImageText } from "../../../components"
 import { Constant } from "../../../constant"
 import { imageResize } from "../../../features/image/resize"
-import { listSelectedPop, listSelectedPush } from "../../../redux"
+import { reduxAction } from "../../../redux"
 
 const ListPicked = () => {
-  const listSelected = useSelector((state) => state.listSelected)
+  const data = reduxAction.stack.get.array(useSelector)
 
   const renderItem = ({ item, index }) => {
     return (
@@ -30,7 +30,7 @@ const ListPicked = () => {
       }}
     >
       <FlatList
-        data={listSelected}
+        data={data}
         renderItem={renderItem}
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -49,16 +49,34 @@ const ListSelectable = () => {
     {
       text: "one",
       image: {
-        uri: undefined,
+        uri: "https://picsum.photos/512/512",
+        url: "https://picsum.photos/512/512",
+      },
+    },
+    {
+      text: "two",
+      image: {
+        uri: "https://picsum.photos/512/512",
+        url: "https://picsum.photos/512/512",
+      },
+    },
+    {
+      text: "three",
+      image: {
+        uri: "https://picsum.photos/512/512",
+        url: "https://picsum.photos/512/512",
+      },
+    },
+    {
+      text: "four",
+      image: {
+        uri: "https://picsum.photos/512/512",
         url: "https://picsum.photos/512/512",
       },
     },
   ])
 
-  console.log(JSON.stringify(data, null, 2))
-
-  useEffect(() => {
-    console.log("This should only show up once!!!")
+  useLayoutEffect(() => {
     const resize = async () => {
       try {
         const uri = await imageResize(data[0].image.url)
@@ -76,23 +94,36 @@ const ListSelectable = () => {
   }, [])
 
   const select = (index) => {
-    dispatch(listSelectedPush(data[index]))
+    reduxAction.stack.push(dispatch, data[index])
   }
 
+  const add = () => {}
+
   const renderItem = ({ item, index }) => {
+    if (index == data.length) {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            add()
+          }}
+        >
+          <Card.Add />
+        </TouchableOpacity>
+      )
+    }
     return (
       <TouchableOpacity
         onPress={() => {
           select(index)
         }}
       >
-        <Card.Comm source={item.image.uri} text={item.text} />
+        <Card.Comm source={item?.image?.uri} text={item.text} />
       </TouchableOpacity>
     )
   }
 
   const onLayoutView = (event) => {
-    const { width, height } = event.nativeEvent.layout
+    const { width } = event.nativeEvent.layout
     setNumColumns(
       Math.floor(
         width / (Constant.card.comm.width + 2 * Constant.card.comm.margin),
@@ -109,7 +140,7 @@ const ListSelectable = () => {
       }}
     >
       <FlatList
-        data={data}
+        data={data.concat([{ empty: true }])}
         renderItem={renderItem}
         key={numColumns}
         numColumns={numColumns}
@@ -121,8 +152,6 @@ const ListSelectable = () => {
         columnWrapperStyle={
           numColumns != 1 && {
             width: "100%",
-            justifyContent: "space-between",
-            flex: 1 / numColumns,
           }
         }
       />
@@ -134,7 +163,7 @@ const ButtonBackSpace = memo(() => {
   const dispatch = useDispatch()
 
   const deselect = () => {
-    dispatch(listSelectedPop())
+    reduxAction.stack.pop(dispatch)
   }
 
   return (

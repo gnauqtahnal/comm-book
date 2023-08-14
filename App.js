@@ -1,15 +1,8 @@
 import { StatusBar } from "expo-status-bar"
-import { useState } from "react"
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 import { useDispatch } from "react-redux"
 
-import { Card, ModalLoading } from "./src/components"
+import { ModalLoading } from "./src/components"
 import { ImageAction } from "./src/features"
 import { NavigationProvider } from "./src/navigation"
 import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
@@ -106,11 +99,3 @@ export default function App() {
     </ReduxProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-})
