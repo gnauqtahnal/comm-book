@@ -1,10 +1,9 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import React, { memo, useEffect, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
 import { useDispatch, useSelector } from "react-redux"
 
-import { Card, LogoImageText } from "../../../components"
+import { Card, LogoImageText, SafeView } from "../../../components"
 import { Constant } from "../../../constant"
 import { imageResize } from "../../../features/image/resize"
 import { reduxAction } from "../../../redux"
@@ -226,27 +225,39 @@ const ButtonBackSpace = memo(() => {
 
 const HomeHeader = () => {
   return (
-    <View
-      style={{
-        padding: 8,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-start",
-      }}
-    >
-      <LogoImageText />
-      <View style={{ flex: 1 }} />
-      <ButtonBackSpace />
+    <View>
+      <View
+        style={{
+          width: "100%",
+          height: 512,
+          backgroundColor: "#f0c724",
+          position: "absolute",
+          bottom: 0,
+        }}
+      />
+      <View
+        style={{
+          padding: 8,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          backgroundColor: "#f0c724",
+        }}
+      >
+        <LogoImageText />
+        <View style={{ flex: 1 }} />
+        <ButtonBackSpace />
+      </View>
     </View>
   )
 }
 
 export const HomeScreen = () => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeView>
       <HomeHeader />
       <ListStack />
       <ListCategory />
-    </SafeAreaView>
+    </SafeView>
   )
 }
