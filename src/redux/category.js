@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const slice = createSlice({
   name: "category",
   initialState: {
+    currSection: "Cơ bản",
     "Cơ bản": [],
   },
   reducers: {
@@ -29,6 +30,9 @@ export const categoryReducer = slice.reducer
 
 export const categoryAction = {
   get: {
+    currSection: (selector) => {
+      return selector((state) => state.category.currSection)
+    },
     array: (selector, section = "Cơ bản") => {
       const array = selector((state) => state.category[section])
       return array

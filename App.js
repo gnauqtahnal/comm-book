@@ -3,9 +3,8 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { useDispatch } from "react-redux"
 
 import { ModalLoading } from "./src/components"
-import { ImageAction } from "./src/features"
 import { NavigationProvider } from "./src/navigation"
-import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
+import { ReduxProvider } from "./src/redux"
 
 // const PickImage = () => {
 //   const [uri, setUri] = useState('')
@@ -55,42 +54,43 @@ import { ReduxProvider, closeModalLoading, openModalLoading } from "./src/redux"
 //   )
 // }
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+// const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-const OpenLoadingModal = () => {
-  const dispatch = useDispatch()
+// const OpenLoadingModal = () => {
+//   const dispatch = useDispatch()
 
-  const openModal = async () => {
-    dispatch(openModalLoading(0))
-    for (let progress = 0; progress <= 100; progress = progress + 10) {
-      dispatch(openModalLoading(progress))
-      await sleep(100)
-    }
-    dispatch(closeModalLoading())
-  }
+//   const openModal = async () => {
+//     dispatch(openModalLoading(0))
+//     for (let progress = 0; progress <= 100; progress = progress + 10) {
+//       dispatch(openModalLoading(progress))
+//       await sleep(100)
+//     }
+//     dispatch(closeModalLoading())
+//   }
 
-  return (
-    <TouchableOpacity onPress={openModal}>
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          borderWidth: 1,
-          padding: 8,
-          borderRadius: 5,
-        }}
-      >
-        <Text>Open Modal</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
+//   return (
+//     <TouchableOpacity onPress={openModal}>
+//       <View
+//         style={{
+//           alignItems: "center",
+//           justifyContent: "center",
+//           borderWidth: 1,
+//           padding: 8,
+//           borderRadius: 5,
+//         }}
+//       >
+//         <Text>Open Modal</Text>
+//       </View>
+//     </TouchableOpacity>
+//   )
+// }
 
 export default function App() {
   return (
     <ReduxProvider>
       <StatusBar style="auto" />
       <NavigationProvider />
+      <ModalLoading />
       {/* <View style={styles.container}>
             <ModalLoading />
             <PickImage />

@@ -3,6 +3,8 @@ import { Modal, Text } from "react-native"
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 import { useSelector } from "react-redux"
 
+import { reduxAction } from "../../redux"
+
 const ProgressBar = ({ progress = 0 }) => {
   return (
     <View style={styles.progressBarContainer}>
@@ -12,7 +14,8 @@ const ProgressBar = ({ progress = 0 }) => {
 }
 
 export const ModalLoading = () => {
-  const { visible, progressBar } = useSelector((state) => state.modal.loading)
+  const visible = reduxAction.modal.loading.get.visible(useSelector)
+  const progressBar = reduxAction.modal.loading.get.progressBar(useSelector)
 
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>

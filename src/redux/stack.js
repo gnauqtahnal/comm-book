@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { Alert } from "react-native"
-import { useSelector } from "react-redux"
 
 const slice = createSlice({
   name: "stack",

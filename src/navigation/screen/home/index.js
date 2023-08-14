@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import React, { memo, useEffect, useLayoutEffect, useState } from "react"
+import React, { memo, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useDispatch, useSelector } from "react-redux"
@@ -9,7 +9,7 @@ import { Constant } from "../../../constant"
 import { imageResize } from "../../../features/image/resize"
 import { reduxAction } from "../../../redux"
 
-const ListPicked = () => {
+const ListStack = () => {
   const data = reduxAction.stack.get.array(useSelector)
 
   const renderItem = ({ item, index }) => {
@@ -42,69 +42,42 @@ const ListPicked = () => {
   )
 }
 
-const ListSelectable = () => {
+const ListCategory = () => {
   const dispatch = useDispatch()
+  const section = reduxAction.category.get.currSection(useSelector)
+  const data = reduxAction.category.get.array(useSelector)
   const [numColumns, setNumColumns] = useState(1)
-  const [data, setData] = useState([
-    {
-      text: "one",
-      image: {
-        uri: "https://picsum.photos/512/512",
-        url: "https://picsum.photos/512/512",
-      },
-    },
-    {
-      text: "two",
-      image: {
-        uri: "https://picsum.photos/512/512",
-        url: "https://picsum.photos/512/512",
-      },
-    },
-    {
-      text: "three",
-      image: {
-        uri: "https://picsum.photos/512/512",
-        url: "https://picsum.photos/512/512",
-      },
-    },
-    {
-      text: "four",
-      image: {
-        uri: "https://picsum.photos/512/512",
-        url: "https://picsum.photos/512/512",
-      },
-    },
-  ])
-
-  useLayoutEffect(() => {
-    const resize = async () => {
-      try {
-        const uri = await imageResize(data[0].image.url)
-        setData((data) => {
-          const newData = [...data]
-          newData[0].image.uri = uri
-          return newData
-        })
-      } catch {
-        Alert.alert("Resize", "Failure to resize")
-      }
-    }
-
-    resize()
-  }, [])
+  const [editable, setEditable] = useState(false)
 
   const select = (index) => {
     reduxAction.stack.push(dispatch, data[index])
   }
 
-  const add = () => {}
+  const add = async (index, item) => {
+    try {
+      reduxAction.modal.loading.open(dispatch)
+
+      reduxAction.category.update(dispatch, section, index, {
+        text: `item${index}`,
+        image: {
+          uri: await imageResize(
+            `https://picsum.photos/512/512?random=${index}`,
+          ),
+        },
+      })
+      reduxAction.modal.loading.close(dispatch)
+    } catch (error) {
+      reduxAction.modal.loading.close(dispatch)
+      Alert.alert("Error: Add new card", error)
+    }
+  }
 
   const renderItem = ({ item, index }) => {
     if (index == data.length) {
       return (
         <TouchableOpacity
           onPress={() => {
-            add()
+            add(index, item)
           }}
         >
           <Card.Add />
@@ -211,8 +184,8 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <HomeHeader />
-      <ListPicked />
-      <ListSelectable />
+      <ListStack />
+      <ListCategory />
     </SafeAreaView>
   )
 }
