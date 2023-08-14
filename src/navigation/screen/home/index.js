@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import React, { memo, useState } from "react"
+import React, { memo, useEffect, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useDispatch, useSelector } from "react-redux"
@@ -49,6 +49,12 @@ const ListCategory = () => {
   const [numColumns, setNumColumns] = useState(1)
   const [editable, setEditable] = useState(false)
 
+  useEffect(() => {
+    if (data.length === 0) {
+      setEditable(true)
+    }
+  }, [data])
+
   const select = (index) => {
     reduxAction.stack.push(dispatch, data[index])
   }
@@ -74,56 +80,78 @@ const ListCategory = () => {
 
   const renderItem = ({ item, index }) => {
     if (index == data.length) {
-      return (
-        <TouchableOpacity
-          onPress={() => {
-            add(index, item)
-          }}
-        >
-          <Card.Add />
-        </TouchableOpacity>
-      )
-    }
-    return (
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity
-          onPress={() => {
-            if (editable) {
-              setEditable(false)
-            } else {
-              select(index)
-            }
-          }}
-          onLongPress={() => {
-            setEditable(true)
-          }}
-        >
-          <Card.Comm source={item?.image?.uri} text={item.text} />
-        </TouchableOpacity>
-        {editable ? (
+      if (editable) {
+        return (
           <TouchableOpacity
             onPress={() => {
-              reduxAction.category.remove(dispatch, section, index)
+              add(index, item)
             }}
           >
-            <View
-              style={{
-                position: "absolute",
-                right: Constant.card.comm.width - 22,
-                backgroundColor: "red",
-                borderRadius: "100%",
-              }}
-            >
-              <MaterialCommunityIcons
-                name="minus-circle-outline"
-                size={30}
-                color="white"
-              />
-            </View>
+            <Card.Add />
           </TouchableOpacity>
-        ) : null}
-      </View>
-    )
+        )
+      }
+    } else {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            onPress={() => {
+              if (editable) {
+                setEditable(false)
+              } else {
+                select(index)
+              }
+            }}
+            onLongPress={() => {
+              setEditable(true)
+            }}
+          >
+            <Card.Comm source={item?.image?.uri} text={item.text} />
+          </TouchableOpacity>
+          {editable ? (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  reduxAction.category.remove(dispatch, section, index)
+                }}
+              >
+                <View
+                  style={{
+                    position: "absolute",
+                    right: Constant.card.comm.width - 32,
+                    backgroundColor: "red",
+                    borderRadius: 5,
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="minus-circle-outline"
+                    size={40}
+                    color="white"
+                  />
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <View
+                  style={{
+                    position: "absolute",
+                    right: Constant.card.comm.width - 78,
+                    backgroundColor: "yellow",
+                    borderRadius: 5,
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="circle-edit-outline"
+                    size={40}
+                    color="black"
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+        </View>
+      )
+    }
   }
 
   const onLayoutView = (event) => {
@@ -178,16 +206,18 @@ const ButtonBackSpace = memo(() => {
     >
       <View
         style={{
-          borderWidth: 1,
+          // borderWidth: 1,
           borderRadius: 5,
           paddingVertical: 1,
           paddingHorizontal: 8,
+          paddingVertical: 2,
+          backgroundColor: "red",
         }}
       >
         <MaterialCommunityIcons
           name="backspace-outline"
           size={30}
-          color="black"
+          color="white"
         />
       </View>
     </TouchableOpacity>
