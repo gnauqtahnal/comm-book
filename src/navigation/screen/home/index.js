@@ -85,13 +85,44 @@ const ListCategory = () => {
       )
     }
     return (
-      <TouchableOpacity
-        onPress={() => {
-          select(index)
-        }}
-      >
-        <Card.Comm source={item?.image?.uri} text={item.text} />
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => {
+            if (editable) {
+              setEditable(false)
+            } else {
+              select(index)
+            }
+          }}
+          onLongPress={() => {
+            setEditable(true)
+          }}
+        >
+          <Card.Comm source={item?.image?.uri} text={item.text} />
+        </TouchableOpacity>
+        {editable ? (
+          <TouchableOpacity
+            onPress={() => {
+              reduxAction.category.remove(dispatch, section, index)
+            }}
+          >
+            <View
+              style={{
+                position: "absolute",
+                right: Constant.card.comm.width - 22,
+                backgroundColor: "red",
+                borderRadius: "100%",
+              }}
+            >
+              <MaterialCommunityIcons
+                name="minus-circle-outline"
+                size={30}
+                color="white"
+              />
+            </View>
+          </TouchableOpacity>
+        ) : null}
+      </View>
     )
   }
 

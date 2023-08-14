@@ -21,10 +21,17 @@ const slice = createSlice({
         }
       }
     },
+    remove: (state, action) => {
+      const { section, index } = action.payload
+
+      if (state[section]) {
+        state[section].splice(index, 1)
+      }
+    },
   },
 })
 
-const { update } = slice.actions
+const { update, remove } = slice.actions
 
 export const categoryReducer = slice.reducer
 
@@ -40,5 +47,8 @@ export const categoryAction = {
   },
   update: (dispatch, section, index, data) => {
     dispatch(update({ section, index, data }))
+  },
+  remove: (dispatch, section, index) => {
+    dispatch(remove({ section, index }))
   },
 }
