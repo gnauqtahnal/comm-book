@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { useNavigation } from "@react-navigation/native"
 import React, { memo, useEffect, useState } from "react"
 import { Alert, FlatList, TouchableOpacity, View } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
@@ -43,6 +44,7 @@ const ListStack = () => {
 
 const ListCategory = () => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const section = reduxAction.category.get.currSection(useSelector)
   const data = reduxAction.category.get.array(useSelector)
   const [numColumns, setNumColumns] = useState(1)
@@ -58,18 +60,21 @@ const ListCategory = () => {
     reduxAction.stack.push(dispatch, data[index])
   }
 
-  const add = async (index, item) => {
+  const add = async ({ item, index }) => {
     try {
       reduxAction.modal.loading.open(dispatch)
 
-      reduxAction.category.update(dispatch, section, index, {
-        text: `item${index}`,
-        image: {
-          uri: await imageResize(
-            `https://picsum.photos/512/512?random=${index}`,
-          ),
-        },
-      })
+      // reduxAction.category.update(dispatch, section, index, {
+      //   text: `item${index}`,
+      //   image: {
+      //     uri: await imageResize(
+      //       `https://picsum.photos/512/512?random=${index}`,
+      //     ),
+      //   },
+      // })
+
+      navigation.navigate("Editor", { item, index })
+
       reduxAction.modal.loading.close(dispatch)
     } catch (error) {
       reduxAction.modal.loading.close(dispatch)
@@ -83,7 +88,7 @@ const ListCategory = () => {
         return (
           <TouchableOpacity
             onPress={() => {
-              add(index, item)
+              add({ item, index })
             }}
           >
             <Card.Add />
