@@ -7,6 +7,7 @@ import React, {
   useContext,
   useEffect,
   useReducer,
+  useState,
 } from 'react';
 import {
   Alert,
@@ -34,7 +35,6 @@ const Provider = ({ children }) => {
       url: '',
     },
     recording: null,
-    sound: null,
     duration: {
       minute: 0,
       second: 0,
@@ -97,14 +97,6 @@ const Provider = ({ children }) => {
 
   const [state, dispatch] = useReducer(reducer, initialArg);
 
-  useEffect(() => {
-    return state.sound
-      ? () => {
-          state.sound.unloadAsync();
-        }
-      : undefined;
-  }, [state.sound]);
-
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
   );
@@ -131,13 +123,51 @@ const ContainerView = ({ children }) => {
 };
 
 const CardView = () => {
-  const { state, dispatch } = useContext(Context);
+  const { state } = useContext(Context);
+  const [sound, setSound] = useState(undefined);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const onPlayback = (status) => {
+    /* Update 'isPlaying' status */
+    setIsPlaying(status.isPlaying);
+  };
+
+  useEffect(() => {
+    if (state.audio.uri) {
+      /* Create new 'sound' when 'state.audio.uri' changed */
+      (async () => {
+        const { sound } = await Audio.Sound.createAsync(
+          { uri: state.audio.uri },
+          {},
+          onPlayback
+        );
+        setSound(sound);
+      })();
+    }
+  }, [state.audio.uri]);
+
+  /* When 'sound' changed or 'CardView' destroyed, unload 'sound' from memory */
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   const onPress = () => {
-    if (state.sound) {
-      (async () => {
-        await state.sound.replayAsync();
-      })();
+    if (sound) {
+      if (isPlaying) {
+        /* When 'sound' is 'isPlaying' then stop */
+        (async () => {
+          await sound.stopAsync();
+        })();
+      } else {
+        /* No 'isPlaying' then start play 'sound' from the begin */
+        (async () => {
+          await sound.replayAsync();
+        })();
+      }
     }
   };
 
@@ -273,14 +303,6 @@ const StopRecView = memo(() => {
 
         dispatch({ type: 'audio', uri: uri });
         dispatch({ type: 'recording', recording: null });
-
-        if (state.sound) {
-          await state.sound.unloadAsync();
-        }
-
-        let { sound } = await Audio.Sound.createAsync({ uri });
-
-        dispatch({ type: 'sound', sound: sound });
       } catch (error) {
         Alert.alert('ERROR: Record Stop', error);
       }
