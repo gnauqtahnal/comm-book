@@ -1,11 +1,18 @@
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import * as ImagePicker from 'expo-image-picker';
-import React, { createContext, memo, useContext, useReducer } from 'react';
+import React, {
+  createContext,
+  memo,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react';
 import {
   Alert,
   Platform,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -28,6 +35,10 @@ const Provider = ({ children }) => {
     },
     recording: null,
     sound: null,
+    duration: {
+      minute: 0,
+      second: 0,
+    },
   };
 
   const reducer = (state, action) => {
@@ -72,10 +83,27 @@ const Provider = ({ children }) => {
 
       case 'sound':
         return { ...state, sound: action.sound };
+
+      case 'duration':
+        return {
+          ...state,
+          duration: {
+            minute: action.minute,
+            second: action.second,
+          },
+        };
     }
   };
 
   const [state, dispatch] = useReducer(reducer, initialArg);
+
+  useEffect(() => {
+    return state.sound
+      ? () => {
+          state.sound.unloadAsync();
+        }
+      : undefined;
+  }, [state.sound]);
 
   return (
     <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
@@ -106,11 +134,11 @@ const CardView = () => {
   const { state, dispatch } = useContext(Context);
 
   const onPress = () => {
-    (async () => {
-      if (state.sound) {
+    if (state.sound) {
+      (async () => {
         await state.sound.replayAsync();
-      }
-    })();
+      })();
+    }
   };
 
   return (
@@ -187,11 +215,19 @@ const LibraryView = memo(() => {
 const StartRecView = memo(() => {
   const { dispatch } = useContext(Context);
 
-  const onRecordingStatusUpdate = () => {};
+  const onRecordingStatusUpdate = ({ durationMillis }) => {
+    let second = Math.ceil(durationMillis / 1000);
+    let minute = Math.floor(second / 60);
+    second = second - minute * 60;
 
-  const progressUpdateIntervalMillis = () => {};
+    if (durationMillis) {
+      dispatch({ type: 'duration', minute: minute, second: second });
+    }
+  };
 
   const onPress = () => {
+    dispatch({ type: 'duration', minute: 0, second: 0 });
+
     (async () => {
       try {
         await Audio.requestPermissionsAsync();
@@ -202,8 +238,7 @@ const StartRecView = memo(() => {
 
         let { recording } = await Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.LOW_QUALITY,
-          onRecordingStatusUpdate,
-          progressUpdateIntervalMillis
+          onRecordingStatusUpdate
         );
 
         dispatch({ type: 'recording', recording: recording });
@@ -239,6 +274,10 @@ const StopRecView = memo(() => {
         dispatch({ type: 'audio', uri: uri });
         dispatch({ type: 'recording', recording: null });
 
+        if (state.sound) {
+          await state.sound.unloadAsync();
+        }
+
         let { sound } = await Audio.Sound.createAsync({ uri });
 
         dispatch({ type: 'sound', sound: sound });
@@ -268,9 +307,16 @@ const RecordButton = () => {
 };
 
 const RecordView = () => {
+  const { state } = useContext(Context);
+
   return (
-    <View>
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
       <RecordButton />
+      <Text style={{ marginTop: 8, fontSize: 24 }}>
+        {Math.floor(state.duration.minute / 10)}
+        {state.duration.minute % 10}:{Math.floor(state.duration.second / 10)}
+        {state.duration.second % 10}
+      </Text>
     </View>
   );
 };
