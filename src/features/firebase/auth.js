@@ -1,6 +1,6 @@
 import { getAuth, signInAnonymously } from "firebase/auth"
 
-export const auth = getAuth()
+// export const auth = getAuth()
 
 // signInAnonymously(auth)
 //   .then(() => {

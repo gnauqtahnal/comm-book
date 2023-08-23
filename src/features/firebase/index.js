@@ -1,6 +1,6 @@
-import * as app from './app'
-import * as auth from './auth'
-import * as storage from './storage'
+import * as app from "./app"
+// import * as auth from './auth'
+import * as storage from "./storage"
 
 export const firebase = {
   storage: {
